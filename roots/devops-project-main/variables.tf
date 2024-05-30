@@ -28,6 +28,13 @@ variable "pub_rt_name" {
   default = "final-project-public-route-table"
 }
 
+### Private Route Table variables ###
+
+variable "priv_rt_name" {
+  type = string
+  default = "final-project-private-route-table"
+}
+
 ### Public Subnet variables ###
 
 variable "public_subnet_object" {

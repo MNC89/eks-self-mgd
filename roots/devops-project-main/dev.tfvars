@@ -6,6 +6,8 @@ vpc_name = "final-project-vpc"
 igw_name = "final-project-internet-gateway"
 ### Public Route Table variables ###
 pub_rt_name = "final-project-public-route-table"
+### Private Route Table variables ###
+priv_rt_name = "final-project-private-route-table"
 ### Public Subnet variables ###
 public_subnet_object = {
     "pub_sub_1" = {

@@ -19,6 +19,7 @@ module "vpc" {
   vpc_name              = var.vpc_name
   igw_name              = var.igw_name
   pub_rt_name           = var.pub_rt_name
+  priv_rt_name          = var.priv_rt_name
   public_subnet_object  = var.public_subnet_object
   private_subnet_object = var.private_subnet_object
 }

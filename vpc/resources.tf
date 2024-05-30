@@ -30,12 +30,29 @@ resource "aws_route_table" "pub_rt" {
   }
 }
 
+### Private Route Table ###
+
+resource "aws_route_table" "priv_rt" {
+  vpc_id = aws_vpc.fp_vpc.id
+  tags = {
+    Name = var.priv_rt_name
+  }
+}
+
 ### Public Route Table Association ###
 
 resource "aws_route_table_association" "pub_rt_association" {
   for_each       = aws_subnet.pub_sub
   subnet_id      = each.value.id
   route_table_id = aws_route_table.pub_rt.id
+}
+
+### Private Route Table Association ###
+
+resource "aws_route_table_association" "priv_rt_association" {
+  for_each       = aws_subnet.priv_sub
+  subnet_id      = each.value.id
+  route_table_id = aws_route_table.priv_rt.id
 }
 
 ### Public Subnets ### 
