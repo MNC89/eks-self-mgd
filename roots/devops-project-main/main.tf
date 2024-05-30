@@ -23,3 +23,7 @@ module "vpc" {
   public_subnet_object  = var.public_subnet_object
   private_subnet_object = var.private_subnet_object
 }
+
+output "public_ids" {
+  value = module.vpc.public_subnet_ids
+}
