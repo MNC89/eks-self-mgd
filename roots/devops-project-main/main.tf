@@ -12,3 +12,13 @@ module "module2" {
   input_from_module1 = module.module1.greeting_message
   # ... any other required variables for module2
 }
+
+module "vpc" {
+  source                = "../../vpc"
+  vpc_cidr              = var.vpc_cidr
+  vpc_name              = var.vpc_name
+  igw_name              = var.igw_name
+  pub_rt_name           = var.pub_rt_name
+  public_subnet_object  = var.public_subnet_object
+  private_subnet_object = var.private_subnet_object
+}
