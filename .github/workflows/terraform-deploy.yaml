@@ -40,6 +40,16 @@ jobs:
           role-session-name: GitHubActionsRoleSession
           aws-region: ${{ env.AWS_REGION }}
 
+      # Install eksctl in order to create self managed node group
+      - name: Install eksctl
+        run: |
+          ARCH=amd64
+          PLATFORM=$(uname -s)_$ARCH
+          curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
+          tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
+          sudo mv /tmp/eksctl /usr/local/bin
+          eksctl version
+
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
         run: |
@@ -57,3 +67,18 @@ jobs:
       # Build infrastructure according to Terraform configuration files
       - name: Terraform Apply
         run: terraform apply -auto-approve -input=false -var-file=${ENVIRONMENT_STAGE}.tfvars
+
+      # Login to EKS
+      - name: Login to EKS - update kubeconfig
+        run: aws eks update-kubeconfig --name temporary-eks-cluster-${ENVIRONMENT_STAGE} --region $AWS_REGION
+
+      # Deploy ingress controller
+      - name: Deploy ingress-nginx controller
+        run: kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.1/deploy/static/provider/aws/deploy.yaml
+        
+      # Deploy Self Mangaged Nodegroup
+      - name: Create Self Managed Nodegroup
+        run: eksctl create nodegroup --config-file=./eksctl_resources/clusterconfig.yaml
+
+
+      

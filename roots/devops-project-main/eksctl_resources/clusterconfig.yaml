@@ -1,0 +1,34 @@
+apiVersion: eksctl.io/v1alpha5
+      kind: ClusterConfig
+      
+      metadata:
+        name: final-project-eks-cluster
+        region: us-east-1
+          
+      iam:
+        withOIDC: true
+
+      vpc:
+        subnets:
+          private:
+            us-east-1a: #TBD{ id: subnet-0ff156e0c4a6d300c }
+            us-east-1b: #TBD{ id: subnet-0549cdab573695c03 }
+            us-east-1c: #TBD{ id: subnet-0426fb4a607393184 }
+            
+      nodeGroups:
+        - name: final-project-eks-nodegroup
+          instanceType: t3.medium
+          desiredCapacity: 3
+          minSize: 1
+          maxSize: 5
+          amiFamily: Ubuntu22.04 #TBD
+          ami: auto-ssm #TBD
+          iam:
+             attachPolicyARNs:
+                - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+                - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+                - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+                - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+          ssh:
+              allow: true
+              publicKeyName: my-ec2-keypair-name #TBD
