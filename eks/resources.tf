@@ -1,46 +1,50 @@
-# resource "aws_eks_cluster" "fp_eks_cluster" {
-#   name     = "example"
-#   role_arn = aws_iam_role.example.arn
+### EKS Cluster ###
 
-#   vpc_config {
-#     subnet_ids = [aws_subnet.example1.id, aws_subnet.example2.id]
-#   }
+resource "aws_eks_cluster" "fp_eks_cluster" {
+  name     = "final-project-eks-cluster"
+  role_arn = aws_iam_role.eks_iam_role.arn
+  version  = "1.29" #latest kubernetes version 1.30
 
-#   # Ensure that IAM Role permissions are created before and deleted after EKS Cluster handling.
-#   # Otherwise, EKS will not be able to properly delete EKS managed EC2 infrastructure such as Security Groups.
-#   depends_on = [
-#     aws_iam_role_policy_attachment.example-AmazonEKSClusterPolicy,
-#     aws_iam_role_policy_attachment.example-AmazonEKSVPCResourceController,
-#   ]
-# }
+  vpc_config {
+    subnet_ids = [aws_subnet.example1.id, aws_subnet.example2.id] #figure out how to pull this from vpc for_each output
+  }
 
+  # Ensure that IAM Role permissions are created before and deleted after EKS Cluster handling.
+  # Otherwise, EKS will not be able to properly delete EKS managed EC2 infrastructure such as Security Groups.
+  depends_on = [
+    aws_iam_role_policy_attachment.AmazonEKSClusterPolicy,
+    aws_iam_role_policy_attachment.AmazonEKSVPCResourceController,
+  ]
+}
 
-# data "aws_iam_policy_document" "assume_role" {
-#   statement {
-#     effect = "Allow"
+### EKS IAM Role ###
 
-#     principals {
-#       type        = "Service"
-#       identifiers = ["eks.amazonaws.com"]
-#     }
+data "aws_iam_policy_document" "assume_role" {
+  statement {
+    effect = "Allow"
 
-#     actions = ["sts:AssumeRole"]
-#   }
-# }
+    principals {
+      type        = "Service"
+      identifiers = ["eks.amazonaws.com"]
+    }
 
-# resource "aws_iam_role" "example" {
-#   name               = "eks-cluster-example"
-#   assume_role_policy = data.aws_iam_policy_document.assume_role.json
-# }
+    actions = ["sts:AssumeRole"]
+  }
+}
 
-# resource "aws_iam_role_policy_attachment" "example-AmazonEKSClusterPolicy" {
-#   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
-#   role       = aws_iam_role.example.name
-# }
+resource "aws_iam_role" "eks_iam_role" {
+  name               = "fp-eks-cluster-role"
+  assume_role_policy = data.aws_iam_policy_document.assume_role.json
+}
 
-# # Optionally, enable Security Groups for Pods
-# # Reference: https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html
-# resource "aws_iam_role_policy_attachment" "example-AmazonEKSVPCResourceController" {
-#   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
-#   role       = aws_iam_role.example.name
-# }
+resource "aws_iam_role_policy_attachment" "AmazonEKSClusterPolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+  role       = aws_iam_role.eks_iam_role.name
+}
+
+# Optionally, enable Security Groups for Pods
+# Reference: https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html
+resource "aws_iam_role_policy_attachment" "AmazonEKSVPCResourceController" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
+  role       = aws_iam_role.eks_iam_role.name
+}
