@@ -12,10 +12,10 @@ iam:
 vpc:
   id: vpc-0043be5ba03ca6d29
   subnets:
-    private:
-      us-east-1a: { id: subnet-09c775bb24de81180 }
-      us-east-1b: { id: subnet-024d2ff773efeaae9 }
-      us-east-1c: { id: subnet-02b5bbea9a2931f34 }
+    public:
+      us-east-1a: { id: subnet-00bbc5bc469498850 }
+      us-east-1b: { id: subnet-01b0b1da135fd16e9 }
+      us-east-1c: { id: subnet-0944b1cd235e46e19 }
   securityGroup: sg-051a612e0dcd3f07c
       
 nodeGroups:
@@ -24,8 +24,8 @@ nodeGroups:
     desiredCapacity: 3
     minSize: 1
     maxSize: 5
-    amiFamily: AmazonLinux2
-    ami: ami-0b67181166bc73bf7
+    amiFamily: Ubuntu2204
+    ami: ami-0e001c9271cf7f3b9  # Ubuntu 22.04 (x86)
     overrideBootstrapCommand: |
       #!/bin/bash
       /etc/eks/bootstrap.sh final-project-eks-cluster-dev
