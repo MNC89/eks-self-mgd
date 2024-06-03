@@ -90,3 +90,5 @@ variable "private_subnet_object" {
     }
   }
 }
+
+### EKS variables ###

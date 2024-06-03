@@ -6,7 +6,7 @@ resource "aws_eks_cluster" "fp_eks_cluster" {
   version  = "1.29" #latest kubernetes version 1.30
 
   vpc_config {
-    subnet_ids = [aws_subnet.example1.id, aws_subnet.example2.id] #figure out how to pull this from vpc for_each output
+    subnet_ids = var.eks_pub_sub_ids
   }
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Cluster handling.

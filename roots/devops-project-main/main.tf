@@ -13,6 +13,8 @@ module "module2" {
   # ... any other required variables for module2
 }
 
+### VPC ###
+
 module "vpc" {
   source                = "../../vpc"
   vpc_cidr              = var.vpc_cidr
@@ -26,4 +28,11 @@ module "vpc" {
 
 output "public_ids" {
   value = module.vpc.public_subnet_ids
+}
+
+### EKS ###
+
+module "eks_cluster" {
+  source          = "../../eks"
+  eks_pub_sub_ids = module.vpc.public_subnet_ids
 }
