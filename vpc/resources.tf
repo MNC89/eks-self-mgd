@@ -58,10 +58,11 @@ resource "aws_route_table_association" "priv_rt_association" {
 ### Public Subnets ### 
 
 resource "aws_subnet" "pub_sub" {
-  for_each          = var.public_subnet_object
-  vpc_id            = aws_vpc.fp_vpc.id
-  cidr_block        = each.value.cidr
-  availability_zone = each.value.az
+  for_each                = var.public_subnet_object
+  vpc_id                  = aws_vpc.fp_vpc.id
+  cidr_block              = each.value.cidr
+  availability_zone       = each.value.az
+  map_public_ip_on_launch = true
 
   tags = {
     Name = "${each.value.name}-final-project"
