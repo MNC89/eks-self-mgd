@@ -1,7 +1,7 @@
 ### EKS Cluster ###
 
 resource "aws_eks_cluster" "fp_eks_cluster" {
-  name     = var.eks_cluster_name 
+  name     = var.eks_cluster_name
   role_arn = aws_iam_role.eks_iam_role.arn
   version  = "1.29" #latest kubernetes version 1.30
 
@@ -92,6 +92,8 @@ resource "aws_iam_role_policy_attachment" "cni_role_attachment" {
 ### EKS Add On ###
 
 resource "aws_eks_addon" "example" {
-  cluster_name = aws_eks_cluster.fp_eks_cluster.name
-  addon_name   = "vpc-cni"
+  depends_on               = [aws_iam_role.cni_role]
+  cluster_name             = aws_eks_cluster.fp_eks_cluster.name
+  addon_name               = "vpc-cni"
+  service_account_role_arn = aws_iam_role.cni_role.arn
 }
