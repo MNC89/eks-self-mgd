@@ -13,8 +13,8 @@ vpc:
   id: ${VPC_ID}
   subnets:
     public:
-      us-east-1a: { id: ${PUBLIC_ID_1} }
-      us-east-1b: { id: ${PUBLIC_ID_2} }
+      us-east-1a: { id: ${PUBLIC_ID_1} },
+      us-east-1b: { id: ${PUBLIC_ID_2} },
       us-east-1c: { id: ${PUBLIC_ID_3} }
   securityGroup: ${EKS_SG}
       
