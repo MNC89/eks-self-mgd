@@ -26,8 +26,20 @@ module "vpc" {
   private_subnet_object = var.private_subnet_object
 }
 
-output "public_ids" {
-  value = module.vpc.public_subnet_ids
+output "public_id_1" {
+  value = module.vpc.public_subnet_ids[0]
+}
+
+output "public_id_2" {
+  value = module.vpc.public_subnet_ids[1]
+}
+
+output "public_id_3" {
+  value = module.vpc.public_subnet_ids[2]
+}
+
+output "vpc_id" {
+  value = module.vpc.fp_vpc_id
 }
 
 ### EKS ###

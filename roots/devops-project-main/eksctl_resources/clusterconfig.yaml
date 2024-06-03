@@ -10,13 +10,13 @@ iam:
   withOIDC: true
 
 vpc:
-  id: vpc-0043be5ba03ca6d29
+  id: ${VPC_ID}
   subnets:
     public:
-      us-east-1a: { id: subnet-00bbc5bc469498850 }
-      us-east-1b: { id: subnet-01b0b1da135fd16e9 }
-      us-east-1c: { id: subnet-0944b1cd235e46e19 }
-  securityGroup: sg-051a612e0dcd3f07c
+      us-east-1a: { id: ${PUBLIC_ID_1} }
+      us-east-1b: { id: ${PUBLIC_ID_2} }
+      us-east-1c: { id: ${PUBLIC_ID_3} }
+  securityGroup: ${EKS_SG}
       
 nodeGroups:
   - name: final-project-eks-nodegroup
@@ -24,6 +24,11 @@ nodeGroups:
     desiredCapacity: 3
     minSize: 1
     maxSize: 5
+    instancesDistribution:
+      instanceTypes: ["t3.medium", "t3a.medium", "t2.medium"] # At least one instance type should be specified
+      onDemandBaseCapacity: 0
+      onDemandPercentageAboveBaseCapacity: 20
+      spotInstancePools: 2
     amiFamily: Ubuntu2204
     ami: ami-0e001c9271cf7f3b9  # Ubuntu 22.04 (x86)
     overrideBootstrapCommand: |
