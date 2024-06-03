@@ -5,33 +5,33 @@ variable "greeting" {
 ### VPC variables ###
 
 variable "vpc_cidr" {
-  type = string
+  type    = string
   default = "10.0.0.0/16"
 }
 
 variable "vpc_name" {
-  type = string
+  type    = string
   default = "final-project-vpc"
 }
 
 ### Internet Gateway variables ###
 
 variable "igw_name" {
-  type = string
+  type    = string
   default = "final-project-internet-gateway"
 }
 
 ### Public Route Table variables ###
 
 variable "pub_rt_name" {
-  type = string
+  type    = string
   default = "final-project-public-route-table"
 }
 
 ### Private Route Table variables ###
 
 variable "priv_rt_name" {
-  type = string
+  type    = string
   default = "final-project-private-route-table"
 }
 
@@ -42,13 +42,13 @@ variable "public_subnet_object" {
     cidr = string,
     az   = string,
     name = string
-    
+
   }))
   default = {
     "pub_sub_1" = {
       cidr = "10.0.0.0/20",
       az   = "us-east-1a",
-      name = "public-subnet-1"  
+      name = "public-subnet-1"
     },
     "pub_sub_2" = {
       cidr = "10.0.16.0/20",
@@ -70,13 +70,13 @@ variable "private_subnet_object" {
     cidr = string,
     az   = string,
     name = string
-    
+
   }))
   default = {
     "priv_sub_1" = {
       cidr = "10.0.128.0/20"
       az   = "us-east-1a",
-      name = "private-subnet-1"  
+      name = "private-subnet-1"
     },
     "priv_sub_2" = {
       cidr = "10.0.144.0/20",
