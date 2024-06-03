@@ -23,7 +23,6 @@ vpc:
       
 nodeGroups:
   - name: final-project-eks-nodegroup
-    instanceType: t3.medium
     desiredCapacity: 3
     minSize: 1
     maxSize: 5
