@@ -24,8 +24,8 @@ nodeGroups:
     desiredCapacity: 3
     minSize: 1
     maxSize: 5
-    amiFamily: Ubuntu2204 
-    ami: auto-ssm 
+    amiFamily: AmazonLinux2
+    ami: ami-0b67181166bc73bf7
     overrideBootstrapCommand: |
       #!/bin/bash
       /etc/eks/bootstrap.sh final-project-eks-cluster-dev
