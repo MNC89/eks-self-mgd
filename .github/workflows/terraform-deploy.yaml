@@ -72,9 +72,9 @@ jobs:
         id: capture-outputs
         run: |
           echo "vpc_id=$(terraform output -raw vpc_id)" >> $GITHUB_ENV
-          echo "subnet_id_1=$(terraform output -raw subnet_id_1)" >> $GITHUB_ENV
-          echo "subnet_id_2=$(terraform output -raw subnet_id_2)" >> $GITHUB_ENV
-          echo "subnet_id_3=$(terraform output -raw subnet_id_3)" >> $GITHUB_ENV
+          echo "public_id_1=$(terraform output -raw public_id_1)" >> $GITHUB_ENV
+          echo "public_id_2=$(terraform output -raw public_id_2)" >> $GITHUB_ENV
+          echo "public_id_3=$(terraform output -raw public_id_3)" >> $GITHUB_ENV
           echo "eks_sg=$(terraform output -raw eks_sg)" >> $GITHUB_ENV
 
       # Login to EKS
