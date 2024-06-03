@@ -71,11 +71,11 @@ jobs:
       - name: Capture Terraform Outputs
         id: capture-outputs
         run: |
-          echo "vpc_id=$(terraform output -raw vpc_id)" >> $GITHUB_ENV
-          echo "public_id_1=$(terraform output -raw public_id_1)" >> $GITHUB_ENV
-          echo "public_id_2=$(terraform output -raw public_id_2)" >> $GITHUB_ENV
-          echo "public_id_3=$(terraform output -raw public_id_3)" >> $GITHUB_ENV
-          echo "eks_sg=$(terraform output -raw eks_sg)" >> $GITHUB_ENV
+          echo "VPC_ID"=$(terraform output -raw vpc_id)" >> $GITHUB_ENV
+          echo "PUBLIC_ID_1=$(terraform output -raw public_id_1)" >> $GITHUB_ENV
+          echo "PUBLIC_ID_2=$(terraform output -raw public_id_2)" >> $GITHUB_ENV
+          echo "PUBLIC_ID_3=$(terraform output -raw public_id_3)" >> $GITHUB_ENV
+          echo "EKS_SG=$(terraform output -raw eks_sg)" >> $GITHUB_ENV
 
       # Login to EKS
       - name: Login to EKS - update kubeconfig
