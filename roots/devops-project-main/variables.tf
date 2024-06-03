@@ -92,3 +92,8 @@ variable "private_subnet_object" {
 }
 
 ### EKS variables ###
+
+variable "eks_cluster_name" {
+  type = string
+  default = "final-project-eks-cluster-dev"
+}

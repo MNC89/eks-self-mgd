@@ -34,5 +34,6 @@ output "public_ids" {
 
 module "eks_cluster" {
   source          = "../../eks"
+  eks_cluster_name = var.eks_cluster_name
   eks_pub_sub_ids = module.vpc.public_subnet_ids
 }

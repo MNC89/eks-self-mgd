@@ -44,3 +44,5 @@ private_subnet_object = {
     name = "private-subnet-3"
   }
 }
+### EKS cluster variables ###
+eks_cluster_name = "final-project-eks-cluster-dev"

@@ -70,7 +70,7 @@ jobs:
 
       # Login to EKS
       - name: Login to EKS - update kubeconfig
-        run: aws eks update-kubeconfig --name temporary-eks-cluster-${ENVIRONMENT_STAGE} --region $AWS_REGION
+        run: aws eks update-kubeconfig --name final-project-eks-cluster-${ENVIRONMENT_STAGE} --region $AWS_REGION
 
       # Deploy ingress controller
       - name: Deploy ingress-nginx controller
