@@ -89,11 +89,7 @@ jobs:
         
       #Deploy Self Mangaged Nodegroup
       - name: Create Self Managed Nodegroup
-        run: |
-          envsubst < ./eksctl_resources/clusterconfig.yaml.tpl > ./eksctl_resources/clusterconfig.yaml
-          echo "Printing the substituted clusterconfig.yaml file for debugging:"
-          cat ./eksctl_resources/clusterconfig.yaml
-          eksctl create nodegroup --config-file=./eksctl_resources/clusterconfig.yaml
+        run: eksctl create nodegroup --config-file=./eksctl_resources/clusterconfig.yaml
 
       # - name: Terraform Destroy
       #   run: terraform destroy -auto-approve -input=false -var-file=${ENVIRONMENT_STAGE}.tfvars
