@@ -32,6 +32,7 @@ nodeGroups:
       onDemandPercentageAboveBaseCapacity: 20
       spotInstancePools: 2
     ami: auto-ssm
+    amiFamily: AmazonLinux2
     iam:
         attachPolicyARNs:
           - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
