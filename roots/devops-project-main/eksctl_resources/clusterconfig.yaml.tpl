@@ -33,6 +33,34 @@ nodeGroups:
       spotInstancePools: 2
     ami: auto-ssm
     amiFamily: AmazonLinux2
+    overrideBootstrapCommand: |
+      #!/bin/bash
+      set -o xtrace
+
+      CLUSTER_NAME="final-project-eks-cluster-dev"
+      REGION="us-east-1"
+
+      if ! command -v aws &>/dev/null; then
+          echo "AWS CLI is not installed. Installing..."
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install
+      fi
+
+      aws eks --region $REGION update-kubeconfig --name $CLUSTER_NAME
+
+      /etc/eks/bootstrap.sh $CLUSTER_NAME \
+                       --kubelet-extra-args "--node-labels=node-type=worker" \
+                       --apiserver-endpoint="<your-eks-cluster-endpoint>" \
+                       --b64-cluster-ca="<your-eks-cluster-cert-authority-data>" \
+                       --dns-cluster-ip="<your-eks-cluster-dns-ip>"
+
+
+      /opt/aws/bin/cfn-signal --exit-code $? \
+                        --stack  <your-stack-name> \
+                        --resource <your-resource-name>  \
+                        --region $REGION
+
     iam:
         attachPolicyARNs:
           - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
