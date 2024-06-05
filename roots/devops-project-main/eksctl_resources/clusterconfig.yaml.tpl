@@ -58,7 +58,7 @@ nodeGroups:
 
       /opt/aws/bin/cfn-signal --exit-code 255 \
                         --stack  eksctl-final-project-eks-cluster-dev-nodegroup-final-project-eks-nodegroup \
-                        --resource final-project-eks-cluster-dev-final-project-eks-nodegroup-Node \
+                        --resource final-project-eks-nodegroup \
                         --region us-east-1
 
     iam:
