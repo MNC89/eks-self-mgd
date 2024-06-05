@@ -35,7 +35,24 @@ nodeGroups:
     ami: ami-0e001c9271cf7f3b9  # Ubuntu 22.04 (x86)
     overrideBootstrapCommand: |
       #!/bin/bash
-      /etc/eks/bootstrap.sh final-project-eks-cluster-dev
+      
+      export CLUSTER_NAME="final-project-eks-cluster-${ENVIRONMENT_STAGE}"
+      export NODE_LABELS="purpose=final-project"
+      export B64_CLUSTER_CA="$(aws eks describe-cluster --name final-project-eks-cluster-${ENVIRONMENT_STAGE} --region us-east-1 --query 'cluster.certificateAuthority.data' --output text)"
+      export API_SERVER_URL="$(aws eks describe-cluster --name final-project-eks-cluster-${ENVIRONMENT_STAGE} --region us-east-1 --query 'cluster.endpoint' --output text)"
+      export CLUSTER_DNS="10.100.0.10"
+      export MAX_PODS="110"
+
+      source /var/lib/cloud/scripts/eksctl/bootstrap.helper.sh
+
+      /etc/eks/bootstrap.sh $CLUSTER_NAME \
+        --kubelet-extra-args "${KUBELET_EXTRA_ARGS}" \
+        --apiserver-endpoint "$API_SERVER_URL" \
+        --b64-cluster-ca "$B64_CLUSTER_CA" \
+        --dns-cluster-ip "$CLUSTER_DNS"
+
+      apt-get update -y && apt-get upgrade -y
+      apt-get install -y jq awscli
     iam:
         attachPolicyARNs:
           - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
