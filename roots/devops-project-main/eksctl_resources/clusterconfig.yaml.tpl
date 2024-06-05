@@ -57,6 +57,8 @@ nodeGroups:
 
       EXIT_CODE=$?
 
+      echo "Bootstrap command exited with code: $EXIT_CODE"
+
       /opt/aws/bin/cfn-signal --exit-code $EXIT_CODE \
                         --stack  eksctl-final-project-eks-cluster-dev-nodegroup-final-project-eks-nodegroup \
                         --resource NodeGroup \
