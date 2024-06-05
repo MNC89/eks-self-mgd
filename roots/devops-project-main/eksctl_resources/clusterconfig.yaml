@@ -35,6 +35,7 @@ nodeGroups:
     ami: ami-0e001c9271cf7f3b9  # Ubuntu 22.04 (x86)
     overrideBootstrapCommand: |
       #!/bin/bash
+      
       export CLUSTER_NAME="final-project-eks-cluster-${ENVIRONMENT_STAGE}"
       export NODE_LABELS="purpose=final-project"
       export B64_CLUSTER_CA="$(aws eks describe-cluster --name final-project-eks-cluster-${ENVIRONMENT_STAGE} --region us-east-1 --query 'cluster.certificateAuthority.data' --output text)"
