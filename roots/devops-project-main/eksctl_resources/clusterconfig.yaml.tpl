@@ -2,7 +2,7 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: final-project-eks-cluster-dev
+  name: final-project-eks-cluster-${ENVIRONMENT_STAGE}
   region: us-east-1
   version: '1.29'
     

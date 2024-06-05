@@ -79,7 +79,9 @@ jobs:
 
       # Login to EKS
       - name: Login to EKS - update kubeconfig
-        run: aws eks update-kubeconfig --name final-project-eks-cluster-${ENVIRONMENT_STAGE} --region $AWS_REGION
+        run: |
+          aws eks update-kubeconfig --name final-project-eks-cluster-${ENVIRONMENT_STAGE} --region $AWS_REGION
+          kubectl apply -f ./kubernetes_resources/aws_auth.yaml
 
       # Deploy ingress controller
       - name: Deploy ingress-nginx controller
