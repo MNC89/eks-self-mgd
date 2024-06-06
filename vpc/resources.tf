@@ -65,7 +65,8 @@ resource "aws_subnet" "pub_sub" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "${each.value.name}-final-project"
+    Name                                                  = "${each.value.name}-final-project"
+    "kubernetes.io/cluster/final-project-eks-cluster-dev" = "owned"
   }
 }
 
@@ -78,6 +79,7 @@ resource "aws_subnet" "priv_sub" {
   availability_zone = each.value.az
 
   tags = {
-    Name = "${each.value.name}-final-project"
+    Name                                                  = "${each.value.name}-final-project"
+    "kubernetes.io/cluster/final-project-eks-cluster-dev" = "owned"
   }
 }

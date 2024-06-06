@@ -39,7 +39,7 @@ resource "aws_autoscaling_group" "fp_asg" {
 
   tag {
     key                 = "Name"
-    value               = "final-project-asg"
+    value               = "final-project-eks-worker-node"
     propagate_at_launch = true
   }
 
@@ -104,7 +104,11 @@ resource "aws_launch_template" "fp_asg_lt" {
   user_data = base64encode(<<-EOF
                 #!/bin/bash
                 set -o xtrace
-                /etc/eks/bootstrap.sh final-project-eks-cluster-dev 
+                /etc/eks/bootstrap.sh final-project-eks-cluster-dev \
+                       --kubelet-extra-args "--node-labels=node-type=worker" \
+                       --apiserver-endpoint="https://A158A3673297D77F0690675D34C2BA25.gr7.us-east-1.eks.amazonaws.com" \
+                       --b64-cluster-ca="LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJUEFuckxrTVFTMWt3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TkRBMk1EVXhOak15TkRSYUZ3MHpOREEyTURNeE5qTTNORFJhTUJVeApFekFSQmdOVkJBTVRDbXQxWW1WeWJtVjBaWE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLCkFvSUJBUURDUXdIc0VsanNjbS9WTnB1eTdUM0lXTDk5Mk90c2xaeXlCVDdVZERDam5RMlY4L1htUTRQRnp1NTYKTEozYzNnMGdRSmlMZkZFbFJPellWRjRxRHVWdFFJdVVOL29oS2ZQY3BVaTlCTXM1MGRxOUJxTmUra0ZqbXFYWApKR2JpTS9MMjE5NUxVOVBoNi9QR3dEMHpiTGs3MnRWQy8wZDVvRXZKdFQ5MnJGSmo3MGlGSTdSNHZEcDNUYURKCnRiVXpDckR6NVVscTlKV0lXbW5JT3JPcEdSMlVhR3A4dTdwaURDL0R3b0w1UWZZbHdmNWFtZDJHYitmY2w4TlEKOTQwamlvN3kzcTZmdnhOdHVhZzBrcWJOZVplMSt3VUxEb1pXUTMyL1dKd3prQnkxS3hUdXVaUzBnY2FhYnpsLwpmTmtjK1crandjSytldXgrZ1ZEczFGQWVGUUVMQWdNQkFBR2pXVEJYTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQCkJnTlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJUTzJkS1pEWm5FZU1uclYrdGQzZXVTUFU2bW96QVYKQmdOVkhSRUVEakFNZ2dwcmRXSmxjbTVsZEdWek1BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQkVYMGNvcXVEbwpxYUdiOFNKcmxneHZHbUdwdnFKMDlYWFZ1dnJFdzZjblA1WWdTNU9NQytteityNTdQTEtJOXZoOGFOQlFiWVFYCmNhMXduczRiRXBUcFNjcmxseVRjRlErWm1Bb09mRUY1NjNTYmY1YjMrczhmU1ZKaUExclJadDVPeUQ4a3VqU0MKbzZSYy9YRlhxd3pxa05OU1lTQTdvTDVRa1NHamI2bXcwSkhVTFc0b3QvRGVoekpVWW9SWGNjdE9MeGJBZWlWOAphUi8zQVhJL2laRkNrMDdydm1Gem13c0ZkYWRqcWVQakllcmdQZzAxa2Y1dDhFSXpyck8rcTAvQzR1RHRScXo0CmVMYzltWVpaZ2xxaXpraHFSU0ZuQzRMaXY3aWNOZmUySW1OdEsvWkIxRktuc2MyU3VGVzg4bStUZXdyWWpsZ2kKSTYyeHVBRmJSdWNsCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K" \
+                       --dns-cluster-ip="172.20.0.0/16"
               EOF
   )
 }
