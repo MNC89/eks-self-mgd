@@ -128,6 +128,14 @@ resource "aws_security_group" "worker_node_sg" {
   }
 }
 
+resource "aws_vpc_security_group_ingress_rule" "allow_self" {
+  security_group_id            = aws_security_group.worker_node_sg.id
+  referenced_security_group_id = aws_security_group.worker_node_sg.id
+  description                  = "Allow all traffic from self"
+  ip_protocol                  = "-1"
+ 
+}
+
 resource "aws_vpc_security_group_ingress_rule" "allow_https" {
   security_group_id            = aws_security_group.worker_node_sg.id
   referenced_security_group_id = aws_eks_cluster.fp_eks_cluster.vpc_config[0].cluster_security_group_id
