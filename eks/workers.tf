@@ -10,6 +10,8 @@ resource "aws_autoscaling_group" "fp_asg" {
   vpc_zone_identifier       = var.asg_pub_sub_ids
   capacity_rebalance        = true
 
+  depends_on = [aws_eks_cluster.fp_eks_cluster]
+
   mixed_instances_policy {
     instances_distribution {
       on_demand_base_capacity                  = 0
