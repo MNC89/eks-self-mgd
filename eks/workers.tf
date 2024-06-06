@@ -22,9 +22,21 @@ resource "aws_autoscaling_group" "fp_asg" {
         launch_template_id = aws_launch_template.fp_asg_lt.id
         version            = aws_launch_template.fp_asg_lt.latest_version
       }
+
+      override {
+        instance_type = "t3.medium"
+      }
+
+      override {
+        instance_type = "t3a.medium"
+      }
+
+      override {
+        instance_type = "t2.medium"
+      }
     }
   }
-
+  
   tag {
     key                 = "Name"
     value               = "final-project-asg"
@@ -35,6 +47,10 @@ resource "aws_autoscaling_group" "fp_asg" {
     key                 = "kubernetes.io/cluster/final-project-eks-cluster-dev"
     value               = "owned"
     propagate_at_launch = true
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 }
 

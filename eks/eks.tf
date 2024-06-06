@@ -3,7 +3,7 @@
 resource "aws_eks_cluster" "fp_eks_cluster" {
   name     = var.eks_cluster_name
   role_arn = aws_iam_role.eks_iam_role.arn
-  version  = "1.29" #latest kubernetes version 1.30
+  version  = var.k8_version #latest kubernetes version 1.30
 
   vpc_config {
     subnet_ids = var.eks_pub_sub_ids
