@@ -126,6 +126,7 @@ resource "aws_security_group" "worker_node_sg" {
   tags = {
     Name                                                  = "worker-node-sg"
     "kubernetes.io/cluster/final-project-eks-cluster-dev" = "owned"
+    "aws:eks:cluster-name"                                = "final-project-eks-cluster-dev"
   }
 }
 
