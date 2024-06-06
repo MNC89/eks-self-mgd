@@ -78,7 +78,7 @@ jobs:
           echo "EKS_SG=$(terraform output -raw eks_sg)" >> $GITHUB_ENV
 
       # Login to EKS
-      - name: Login to EKS - update kubeconfig
+      - name: Login to EKS - update kubeconfig and apply aws-auth configmap
         run: |
           aws eks update-kubeconfig --name final-project-eks-cluster-${ENVIRONMENT_STAGE} --region $AWS_REGION
           kubectl apply -f ./kubernetes_resources/aws_auth.yaml
