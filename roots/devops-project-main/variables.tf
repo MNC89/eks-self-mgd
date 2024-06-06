@@ -99,6 +99,6 @@ variable "eks_cluster_name" {
 }
 
 variable "k8_version" {
-  type = string
+  type    = string
   default = "1.29"
 }

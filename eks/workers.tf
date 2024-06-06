@@ -36,7 +36,7 @@ resource "aws_autoscaling_group" "fp_asg" {
       }
     }
   }
-  
+
   tag {
     key                 = "Name"
     value               = "final-project-asg"
@@ -57,7 +57,7 @@ resource "aws_autoscaling_group" "fp_asg" {
 ### Worker Nodes Launch Template ###
 
 data "aws_ssm_parameter" "eks_worker_ami" {
-  name = "/aws/service/eks/optimized-ami/${var.k8_version}/amazon-linux-2/recommended/image_id" 
+  name = "/aws/service/eks/optimized-ami/${var.k8_version}/amazon-linux-2/recommended/image_id"
 }
 
 resource "aws_launch_template" "fp_asg_lt" {
@@ -88,7 +88,7 @@ resource "aws_launch_template" "fp_asg_lt" {
     }
   }
 
-  iam_instance_profile { 
+  iam_instance_profile {
     name = aws_iam_instance_profile.node_instance_profile.name
   }
 
