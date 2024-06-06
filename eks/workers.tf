@@ -100,6 +100,7 @@ resource "aws_launch_template" "fp_asg_lt" {
     tags = {
       Name                                                  = "final-project-eks-worker-node"
       "kubernetes.io/cluster/final-project-eks-cluster-dev" = "owned"
+      "aws:eks:cluster-name"                                = "final-project-eks-cluster-dev"
     }
   }
 
