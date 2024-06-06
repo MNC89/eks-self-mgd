@@ -51,7 +51,7 @@ module "eks_cluster" {
   eks_cluster_name = var.eks_cluster_name
   eks_pub_sub_ids  = module.vpc.public_subnet_ids
   asg_pub_sub_ids  = module.vpc.public_subnet_ids
-  vpc_id           = module.vpc.vpc_id
+  vpc_id           = module.vpc.fp_vpc_id
 }
 
 ### EKS Outputs###
