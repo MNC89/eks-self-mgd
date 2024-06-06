@@ -6,7 +6,8 @@ resource "aws_eks_cluster" "fp_eks_cluster" {
   version  = var.k8_version #latest kubernetes version 1.30
 
   vpc_config {
-    subnet_ids = var.eks_pub_sub_ids
+    subnet_ids         = var.eks_pub_sub_ids
+    security_group_ids = [aws_security_group.worker_node_sg.id]
   }
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Cluster handling.
@@ -96,4 +97,35 @@ resource "aws_eks_addon" "example" {
   cluster_name             = aws_eks_cluster.fp_eks_cluster.name
   addon_name               = "vpc-cni"
   service_account_role_arn = aws_iam_role.cni_role.arn
+}
+
+### EKS SG ###
+
+resource "aws_security_group" "eks_cluster_sg" {
+  name   = "eks-sg"
+  vpc_id = var.vpc_id
+
+  tags = {
+    Name                                  = "eks-sg"
+    "kubernetes.io/cluster/project-x-dev" = "owned"
+    "aws:eks:cluster-name"                = var.eks_cluster_name
+  }
+}
+
+resource "aws_vpc_security_group_ingress_rule" "allow_tls_ipv4" {
+  security_group_id            = aws_security_group.eks_cluster_sg.id
+  referenced_security_group_id = aws_security_group.eks_cluster_sg.id
+  ip_protocol                  = "-1"
+}
+
+resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
+  security_group_id = aws_security_group.eks_cluster_sg.id
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = "-1"
+}
+
+resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
+  security_group_id            = aws_security_group.eks_cluster_sg.id
+  referenced_security_group_id = aws_security_group.worker_node_sg.id
+  ip_protocol                  = "-1"
 }
