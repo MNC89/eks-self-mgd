@@ -3,6 +3,11 @@ variable "eks_cluster_name" {
   default = "final-project-eks-cluster-dev"
 }
 
+variable "k8_version" {
+  type = string
+  default = "1.29"
+}
+
 variable "eks_pub_sub_ids" {
   type = list(string)
 }

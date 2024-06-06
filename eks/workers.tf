@@ -40,9 +40,13 @@ resource "aws_autoscaling_group" "fp_asg" {
 
 ### Worker Nodes Launch Template ###
 
+data "aws_ssm_parameter" "eks_worker_ami" {
+  name = "/aws/service/eks/optimized-ami/${var.k8_version}/amazon-linux-2/recommended/image_id" 
+}
+
 resource "aws_launch_template" "fp_asg_lt" {
   name                                 = "final-project-asg-lt"
-  image_id                             = "ami-0f2ee1b771916c0cb" #can the latest eks optimised image be pulled from ssm?
+  image_id                             = data.aws_ssm_parameter.eks_worker_ami.value # Use the latest EKS optimized AMI
   instance_initiated_shutdown_behavior = "terminate"
   key_name                             = "fp-eks-worker-node-key-pair"
   vpc_security_group_ids               = [aws_eks_cluster.fp_eks_cluster.vpc_config[0].cluster_security_group_id, aws_security_group.worker_node_sg.id]
@@ -50,7 +54,7 @@ resource "aws_launch_template" "fp_asg_lt" {
   instance_requirements {
     allowed_instance_types = ["t3.medium", "t3a.medium", "t2.medium"]
     memory_mib {
-      min = 4
+      min = 4096
     }
     vcpu_count {
       min = 2

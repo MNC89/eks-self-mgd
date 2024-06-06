@@ -49,6 +49,7 @@ output "vpc_id" {
 module "eks_cluster" {
   source           = "../../eks"
   eks_cluster_name = var.eks_cluster_name
+  k8_version       = var.k8_version
   eks_pub_sub_ids  = module.vpc.public_subnet_ids
   asg_pub_sub_ids  = module.vpc.public_subnet_ids
   vpc_id           = module.vpc.fp_vpc_id

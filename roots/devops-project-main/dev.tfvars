@@ -46,3 +46,5 @@ private_subnet_object = {
 }
 ### EKS cluster variables ###
 eks_cluster_name = "final-project-eks-cluster-dev"
+k8_version = "1.29"
+
