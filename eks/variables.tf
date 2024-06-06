@@ -12,3 +12,7 @@ variable "eks_pub_sub_ids" {
 variable "asg_pub_sub_ids" {
   type = list(string)
 }
+
+variable "vpc_id" {
+  type = string
+}
