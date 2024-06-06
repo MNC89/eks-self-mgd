@@ -51,6 +51,12 @@ resource "aws_autoscaling_group" "fp_asg" {
     propagate_at_launch = true
   }
 
+  tag {
+    key                 = "aws:eks:cluster-name"
+    value               = "final-project-eks-cluster-dev"
+    propagate_at_launch = true
+  }
+
   lifecycle {
     create_before_destroy = true
   }
@@ -135,7 +141,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_self" {
   referenced_security_group_id = aws_security_group.worker_node_sg.id
   description                  = "Allow all traffic from self"
   ip_protocol                  = "-1"
- 
+
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_https" {
