@@ -92,18 +92,19 @@ resource "aws_iam_role_policy_attachment" "AmazonEKSVPCResourceController" {
 
 ### EKS Add On ###
 
-resource "aws_eks_addon" "cni" {
-  # depends_on               = [aws_iam_role.cni_role]
-  cluster_name             = aws_eks_cluster.fp_eks_cluster.name
-  addon_name               = "vpc-cni"
-  service_account_role_arn = aws_iam_role.node_iam_role.arn
-}
+# resource "aws_eks_addon" "cni" {
+#   # depends_on               = [aws_iam_role.cni_role]
+#   cluster_name             = aws_eks_cluster.fp_eks_cluster.name
+#   addon_name               = "vpc-cni"
+#   service_account_role_arn = aws_iam_role.node_iam_role.arn
+# }
 
-resource "aws_eks_addon" "ebs" {
-  cluster_name = aws_eks_cluster.fp_eks_cluster.name
-  addon_name   = "ebs-csi"
-  service_account_role_arn = aws_iam_role.node_iam_role.arn
-}
+##https://davegallant.ca/blog/amazon-ebs-csi-driver-terraform/
+# resource "aws_eks_addon" "ebs" {
+#   cluster_name = aws_eks_cluster.fp_eks_cluster.name
+#   addon_name   = "aws-ebs-csi-driver"
+#   service_account_role_arn = aws_iam_role.node_iam_role.arn
+# }
 
 ### EKS SG ###
 
