@@ -39,7 +39,7 @@ resource "aws_iam_role" "eks_iam_role" {
 
 resource "aws_iam_role_policy_attachment" "eks_policy" {
   for_each   = var.eks_policy
-  policy_arn = each.key
+  policy_arn = each.value
   role       = aws_iam_role.eks_iam_role.name
 }
 
