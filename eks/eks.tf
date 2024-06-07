@@ -34,19 +34,13 @@ data "aws_iam_policy_document" "assume_role" {
 }
 
 resource "aws_iam_role" "eks_iam_role" {
-  name               = "fp-eks-cluster-role"
+  name               = var.eks_iam_role_name
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
-resource "aws_iam_role_policy_attachment" "AmazonEKSClusterPolicy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
-  role       = aws_iam_role.eks_iam_role.name
-}
-
-# Optionally, enable Security Groups for Pods
-# Reference: https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html
-resource "aws_iam_role_policy_attachment" "AmazonEKSVPCResourceController" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
+resource "aws_iam_role_policy_attachment" "eks_policy" {
+  for_each   = var.eks_policy
+  policy_arn = each.key
   role       = aws_iam_role.eks_iam_role.name
 }
 
