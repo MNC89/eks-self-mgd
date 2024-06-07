@@ -50,53 +50,59 @@ resource "aws_iam_role_policy_attachment" "AmazonEKSVPCResourceController" {
   role       = aws_iam_role.eks_iam_role.name
 }
 
-### EKS OIDC ### https://docs.aws.amazon.com/eks/latest/userguide/cni-iam-role.html
+# ### EKS OIDC ### https://docs.aws.amazon.com/eks/latest/userguide/cni-iam-role.html
 
-data "tls_certificate" "eks_tls" {
-  url = aws_eks_cluster.fp_eks_cluster.identity[0].oidc[0].issuer
-}
+# data "tls_certificate" "eks_tls" {
+#   url = aws_eks_cluster.fp_eks_cluster.identity[0].oidc[0].issuer
+# }
 
-resource "aws_iam_openid_connect_provider" "example" {
-  client_id_list  = ["sts.amazonaws.com"]
-  thumbprint_list = [data.tls_certificate.eks_tls.certificates[0].sha1_fingerprint]
-  url             = aws_eks_cluster.fp_eks_cluster.identity[0].oidc[0].issuer
-}
+# resource "aws_iam_openid_connect_provider" "example" {
+#   client_id_list  = ["sts.amazonaws.com"]
+#   thumbprint_list = [data.tls_certificate.eks_tls.certificates[0].sha1_fingerprint]
+#   url             = aws_eks_cluster.fp_eks_cluster.identity[0].oidc[0].issuer
+# }
 
-data "aws_iam_policy_document" "eks_oidc_assume_role_policy" {
-  statement {
-    actions = ["sts:AssumeRoleWithWebIdentity"]
-    effect  = "Allow"
+# data "aws_iam_policy_document" "eks_oidc_assume_role_policy" {
+#   statement {
+#     actions = ["sts:AssumeRoleWithWebIdentity"]
+#     effect  = "Allow"
 
-    condition {
-      test     = "StringEquals"
-      variable = "${replace(aws_iam_openid_connect_provider.example.url, "https://", "")}:sub"
-      values   = ["system:serviceaccount:kube-system:aws-node"]
-    }
+#     condition {
+#       test     = "StringEquals"
+#       variable = "${replace(aws_iam_openid_connect_provider.example.url, "https://", "")}:sub"
+#       values   = ["system:serviceaccount:kube-system:aws-node"]
+#     }
 
-    principals {
-      identifiers = [aws_iam_openid_connect_provider.example.arn]
-      type        = "Federated"
-    }
-  }
-}
+#     principals {
+#       identifiers = [aws_iam_openid_connect_provider.example.arn]
+#       type        = "Federated"
+#     }
+#   }
+# }
 
-resource "aws_iam_role" "cni_role" {
-  assume_role_policy = data.aws_iam_policy_document.eks_oidc_assume_role_policy.json
-  name               = "fp-eks-vpc-cni-role"
-}
+# resource "aws_iam_role" "cni_role" {
+#   assume_role_policy = data.aws_iam_policy_document.eks_oidc_assume_role_policy.json
+#   name               = "fp-eks-vpc-cni-role"
+# }
 
-resource "aws_iam_role_policy_attachment" "cni_role_attachment" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
-  role       = aws_iam_role.cni_role.name
-}
+# resource "aws_iam_role_policy_attachment" "cni_role_attachment" {
+#   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+#   role       = aws_iam_role.cni_role.name
+# }
 
 ### EKS Add On ###
 
-resource "aws_eks_addon" "example" {
-  depends_on               = [aws_iam_role.cni_role]
+resource "aws_eks_addon" "cni" {
+  # depends_on               = [aws_iam_role.cni_role]
   cluster_name             = aws_eks_cluster.fp_eks_cluster.name
   addon_name               = "vpc-cni"
-  service_account_role_arn = aws_iam_role.cni_role.arn
+  service_account_role_arn = aws_iam_role.node_iam_role.arn
+}
+
+resource "aws_eks_addon" "ebs" {
+  cluster_name = aws_eks_cluster.fp_eks_cluster.name
+  addon_name   = "ebs-csi"
+  service_account_role_arn = aws_iam_role.node_iam_role.arn
 }
 
 ### EKS SG ###
