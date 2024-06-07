@@ -76,6 +76,13 @@ module "eks_cluster" {
   asg_lt_keypair          = var.asg_lt_keypair
   asg_lt_mem              = var.asg_lt_mem
   asg_lt_vcpu             = var.asg_lt_vcpu
+  lt_ebs_name             = var.lt_ebs_name
+  lt_ebs_size             = var.lt_ebs_size
+  lt_ebs_type             = var.lt_ebs_type
+  lt_ebs_iops             = var.lt_ebs_iops
+  lt_ebs_throughput       = var.lt_ebs_throughput
+  wk_name                 = var.wk_name
+  worker_policy           = var.worker_policy
 }
 
 ### EKS Outputs###

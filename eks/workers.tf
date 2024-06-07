@@ -11,9 +11,7 @@ resource "aws_autoscaling_group" "fp_asg" {
   capacity_rebalance        = var.asg_cap_rebalance
 
   depends_on = [
-    aws_iam_role_policy_attachment.AmazonEKSWorkerNodePolicy,
-    aws_iam_role_policy_attachment.AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.AmazonEC2ContainerRegistryReadOnly
+    aws_iam_role_policy_attachment.node_policy
   ]
 
   mixed_instances_policy {
@@ -90,13 +88,13 @@ resource "aws_launch_template" "fp_asg_lt" {
   }
 
   block_device_mappings {
-    device_name = "/dev/xvda"
+    device_name = var.lt_ebs_name
 
     ebs {
-      volume_size = 80
-      volume_type = "gp3"
-      iops        = 3000
-      throughput  = 125
+      volume_size = var.lt_ebs_size
+      volume_type = var.lt_ebs_type
+      iops        = var.lt_ebs_iops
+      throughput  = var.lt_ebs_throughput
     }
   }
 
@@ -125,12 +123,12 @@ resource "aws_launch_template" "fp_asg_lt" {
 ### Worker Nodes Security Group ###
 
 resource "aws_security_group" "worker_node_sg" {
-  name        = "worker-node-sg"
+  name        = "${var.wk_name}-sg"
   description = "Communication between the control plane and worker nodes in eks nodegroup "
   vpc_id      = var.vpc_id
 
   tags = {
-    Name                                                  = "worker-node-sg"
+    Name                                                  = "${var.wk_name}-sg"
     "kubernetes.io/cluster/final-project-eks-cluster-dev" = "owned"
     "aws:eks:cluster-name"                                = "final-project-eks-cluster-dev"
   }
@@ -210,33 +208,37 @@ data "aws_iam_policy_document" "node_assume_role" {
 }
 
 resource "aws_iam_instance_profile" "node_instance_profile" {
-  name = "fp-eks-worker-node-instance-profile"
+  name = "${var.wk_name}-instance-profile"
   role = aws_iam_role.node_iam_role.name
 }
 
 resource "aws_iam_role" "node_iam_role" {
-  name               = "fp-eks-worker-node-role"
+  name               = "${var.wk_name}-role"
   assume_role_policy = data.aws_iam_policy_document.node_assume_role.json
 }
 
-resource "aws_iam_role_policy_attachment" "AmazonEKSWorkerNodePolicy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+resource "aws_iam_role_policy_attachment" "node_policy" {
+  for_each   = var.worker_policy
+  policy_arn = each.value
   role       = aws_iam_role.node_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "AmazonEC2ContainerRegistryReadOnly" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-  role       = aws_iam_role.node_iam_role.name
-}
+# resource "aws_iam_role_policy_attachment" "AmazonEKSWorkerNodePolicy" {
+#   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+#   role       = aws_iam_role.node_iam_role.name
+# }
 
-#SSM role required?
-resource "aws_iam_role_policy_attachment" "AmazonSSMManagedInstanceCore" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
-  role       = aws_iam_role.node_iam_role.name
-}
+# resource "aws_iam_role_policy_attachment" "AmazonEC2ContainerRegistryReadOnly" {
+#   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+#   role       = aws_iam_role.node_iam_role.name
+# }
 
-resource "aws_iam_role_policy_attachment" "AmazonEKS_CNI_Policy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
-  role       = aws_iam_role.node_iam_role.name
-}
+# resource "aws_iam_role_policy_attachment" "AmazonSSMManagedInstanceCore" {
+#   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+#   role       = aws_iam_role.node_iam_role.name
+# }
 
+# resource "aws_iam_role_policy_attachment" "AmazonEKS_CNI_Policy" {
+#   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+#   role       = aws_iam_role.node_iam_role.name
+# }

@@ -235,3 +235,42 @@ variable "asg_lt_vcpu" {
   type    = number
   default = 2
 }
+variable "lt_ebs_name" {
+  type    = string
+  default = "/dev/xvda"
+}
+
+variable "lt_ebs_size" {
+  type    = number
+  default = 80
+}
+
+variable "lt_ebs_type" {
+  type    = string
+  default = "gp3"
+}
+
+variable "lt_ebs_iops" {
+  type    = number
+  default = 3000
+}
+
+variable "lt_ebs_throughput" {
+  type    = number
+  default = 125
+}
+
+variable "wk_name" {
+  type    = string
+  default = "fp-eks-worker-node"
+}
+
+variable "worker_policy" {
+  type = set(string)
+  default = [
+    "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+    "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
+    "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+  ]
+}

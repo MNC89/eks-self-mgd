@@ -81,3 +81,15 @@ asg_lt_inst_shutdown = "terminate"
 asg_lt_keypair       = "fp-eks-worker-node-key-pair"
 asg_lt_mem           = 4096
 asg_lt_vcpu          = 2
+lt_ebs_name          = "/dev/xvda"
+lt_ebs_size          = 80
+lt_ebs_type          = "gp3"
+lt_ebs_iops          = 3000
+lt_ebs_throughput    = 125
+wk_name              = "fp-eks-worker-node"
+worker_policy = [
+  "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+  "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+  "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
+  "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+]

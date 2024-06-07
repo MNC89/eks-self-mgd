@@ -109,23 +109,23 @@ variable "asg_cap_rebalance" {
 }
 
 variable "on_dem_base" {
-  type = number
+  type    = number
   default = 0
 }
 
 variable "on_dem_percent_over" {
-  type = number
+  type    = number
   default = 20
 }
 
 variable "spot_strategy" {
-  type = string
+  type    = string
   default = "capacity-optimized"
 }
 
 variable "spot_inst_type" {
   type = list(string)
-  default = [ 
+  default = [
     "t3.medium",
     "t3a.medium",
     "t2.medium"
@@ -133,28 +133,68 @@ variable "spot_inst_type" {
 }
 
 variable "asg_lt_name" {
-  type = string
+  type    = string
   default = "final-project-asg-lt"
 }
 
 variable "asg_lt_inst_shutdown" {
-  type = string
+  type    = string
   default = "terminate"
 }
 
 variable "asg_lt_keypair" {
-  type = string
+  type    = string
   default = "fp-eks-worker-node-key-pair"
 }
 
 variable "asg_lt_mem" {
-  type = number
+  type    = number
   default = 4096
 }
 
 variable "asg_lt_vcpu" {
-  type = number
+  type    = number
   default = 2
+}
+
+variable "lt_ebs_name" {
+  type    = string
+  default = "/dev/xvda"
+}
+
+variable "lt_ebs_size" {
+  type    = number
+  default = 80
+}
+
+variable "lt_ebs_type" {
+  type    = string
+  default = "gp3"
+}
+
+variable "lt_ebs_iops" {
+  type    = number
+  default = 3000
+}
+
+variable "lt_ebs_throughput" {
+  type    = number
+  default = 125
+}
+
+variable "wk_name" {
+  type    = string
+  default = "fp-eks-worker-node"
+}
+
+variable "worker_policy" {
+  type = set(string)
+  default = [
+    "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+    "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
+    "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+  ]
 }
 
 #not for main variables
