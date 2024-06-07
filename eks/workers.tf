@@ -218,6 +218,7 @@ resource "aws_iam_role" "node_iam_role" {
 }
 
 resource "aws_iam_role_policy_attachment" "node_policy" {
+  depends_on = [ aws_iam_role.node_iam_role ]
   for_each   = var.worker_policy
   policy_arn = each.value
   role       = aws_iam_role.node_iam_role.name
