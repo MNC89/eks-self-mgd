@@ -91,7 +91,9 @@ variable "private_subnet_object" {
   }
 }
 
-### eks.tf Variables ###
+### eks.tf variables ###
+
+### EKS cluster variables ###
 variable "eks_cluster_name" {
   type    = string
   default = "final-project-eks-cluster-dev"
@@ -118,3 +120,35 @@ variable "eks_policy" {
     "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController" 
   ]
 }
+
+### EKS add_on variables ###
+
+variable "vpc_cni_addon_name" {
+  type = string
+  default = "vpc-cni"
+}
+
+variable "vpc_cni_role_name" {
+  type = string
+  default = "fp-eks-vpc-cni-role"
+}
+
+variable "ebs_csi_addon_name" {
+  type = string
+  default = "aws-ebs-csi-driver"
+}
+
+variable "ebs_csi_role_name" {
+  type = string
+  default = "fp-eks-ebs-csi-role"
+}
+
+### EKS security group variables ###
+
+variable "eks_sg_name" {
+  type = string
+  default = "eks-sg"
+}
+
+### workers.tf variables ###
+

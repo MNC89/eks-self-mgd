@@ -55,6 +55,11 @@ module "eks_cluster" {
   vpc_id           = module.vpc.fp_vpc_id
   eks_iam_role_name = var.eks_iam_role_name
   eks_policy = var.eks_policy
+  vpc_cni_addon_name = var.vpc_cni_addon_name
+  vpc_cni_role_name = var.vpc_cni_role_name
+  ebs_csi_addon_name = var.ebs_csi_addon_name
+  ebs_csi_role_name = var.ebs_csi_role_name
+  eks_sg_name = var.eks_sg_name
 }
 
 ### EKS Outputs###

@@ -7,7 +7,7 @@ resource "aws_eks_cluster" "fp_eks_cluster" {
 
   vpc_config {
     subnet_ids         = var.eks_pub_sub_ids
-    security_group_ids = [aws_security_group.worker_node_sg.id]
+    security_group_ids = [aws_security_group.worker_node_sg.id, aws_security_group.eks_cluster_sg.id]
   }
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Cluster handling.
@@ -44,13 +44,13 @@ resource "aws_iam_role_policy_attachment" "eks_policy" {
   role       = aws_iam_role.eks_iam_role.name
 }
 
-# ### EKS OIDC ### https://docs.aws.amazon.com/eks/latest/userguide/cni-iam-role.html
+### EKS OIDC for Add Ons ### https://docs.aws.amazon.com/eks/latest/userguide/cni-iam-role.html
 
 data "tls_certificate" "eks_tls" {
   url = aws_eks_cluster.fp_eks_cluster.identity[0].oidc[0].issuer
 }
 
-resource "aws_iam_openid_connect_provider" "example" {
+resource "aws_iam_openid_connect_provider" "oidc_provider" {
   client_id_list  = ["sts.amazonaws.com"]
   thumbprint_list = [data.tls_certificate.eks_tls.certificates[0].sha1_fingerprint]
   url             = aws_eks_cluster.fp_eks_cluster.identity[0].oidc[0].issuer
@@ -63,12 +63,12 @@ data "aws_iam_policy_document" "eks_oidc_assume_role_policy" {
 
     condition {
       test     = "StringEquals"
-      variable = "${replace(aws_iam_openid_connect_provider.example.url, "https://", "")}:sub"
+      variable = "${replace(aws_iam_openid_connect_provider.oidc_provider.url, "https://", "")}:sub"
       values   = ["system:serviceaccount:kube-system:aws-node"]
     }
 
     principals {
-      identifiers = [aws_iam_openid_connect_provider.example.arn]
+      identifiers = [aws_iam_openid_connect_provider.oidc_provider.arn]
       type        = "Federated"
     }
   }
@@ -79,16 +79,16 @@ data "aws_iam_policy_document" "eks_oidc_assume_role_policy" {
 resource "aws_eks_addon" "cni" {
   depends_on               = [aws_iam_role.cni_role]
   cluster_name             = aws_eks_cluster.fp_eks_cluster.name
-  addon_name               = "vpc-cni"
+  addon_name               = var.vpc_cni_addon_name
   service_account_role_arn = aws_iam_role.cni_role.arn
 }
 
 resource "aws_iam_role" "cni_role" {
   assume_role_policy = data.aws_iam_policy_document.eks_oidc_assume_role_policy.json
-  name               = "fp-eks-vpc-cni-role"
+  name               = var.vpc_cni_role_name
 }
 
-resource "aws_iam_role_policy_attachment" "cni_role_attachment" {
+resource "aws_iam_role_policy_attachment" "AmazonEKS_CNI_Policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
   role       = aws_iam_role.cni_role.name
 }
@@ -97,13 +97,13 @@ resource "aws_iam_role_policy_attachment" "cni_role_attachment" {
 resource "aws_eks_addon" "ebs" {
   depends_on               = [aws_iam_role.ebs_csi_role]
   cluster_name             = aws_eks_cluster.fp_eks_cluster.name
-  addon_name               = "aws-ebs-csi-driver"
+  addon_name               = var.ebs_csi_addon_name
   service_account_role_arn = aws_iam_role.ebs_csi_role.arn
 }
 
 resource "aws_iam_role" "ebs_csi_role" {
   assume_role_policy = data.aws_iam_policy_document.eks_oidc_assume_role_policy.json
-  name               = "fp-eks-ebs-csi-role"
+  name               = var.ebs_csi_role_name
 }
 
 resource "aws_iam_role_policy_attachment" "AmazonEBSCSIDriverPolicy" {
@@ -114,19 +114,25 @@ resource "aws_iam_role_policy_attachment" "AmazonEBSCSIDriverPolicy" {
 ### EKS SG ###
 
 resource "aws_security_group" "eks_cluster_sg" {
-  name   = "eks-sg"
+  name   = var.eks_sg_name
   vpc_id = var.vpc_id
 
   tags = {
-    Name                                  = "eks-sg"
+    Name                                  = var.eks_sg_name
     "kubernetes.io/cluster/project-x-dev" = "owned"
     "aws:eks:cluster-name"                = var.eks_cluster_name
   }
 }
 
-resource "aws_vpc_security_group_ingress_rule" "allow_tls_ipv4" {
+resource "aws_vpc_security_group_ingress_rule" "allow_all_self" {
   security_group_id            = aws_security_group.eks_cluster_sg.id
   referenced_security_group_id = aws_security_group.eks_cluster_sg.id
+  ip_protocol                  = "-1"
+}
+
+resource "aws_vpc_security_group_ingress_rule" "allow_all_eks_made" {
+  security_group_id            = aws_security_group.eks_cluster_sg.id
+  referenced_security_group_id = aws_eks_cluster.fp_eks_cluster.vpc_config[0].cluster_security_group_id
   ip_protocol                  = "-1"
 }
 
@@ -136,8 +142,3 @@ resource "aws_vpc_security_group_egress_rule" "all_traffic_ipv4" {
   ip_protocol       = "-1"
 }
 
-resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
-  security_group_id            = aws_security_group.eks_cluster_sg.id
-  referenced_security_group_id = aws_security_group.worker_node_sg.id
-  ip_protocol                  = "-1"
-}
