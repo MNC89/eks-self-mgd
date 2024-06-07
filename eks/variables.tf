@@ -108,6 +108,55 @@ variable "asg_cap_rebalance" {
   default = true
 }
 
+variable "on_dem_base" {
+  type = number
+  default = 0
+}
+
+variable "on_dem_percent_over" {
+  type = number
+  default = 20
+}
+
+variable "spot_strategy" {
+  type = string
+  default = "capacity-optimized"
+}
+
+variable "spot_inst_type" {
+  type = list(string)
+  default = [ 
+    "t3.medium",
+    "t3a.medium",
+    "t2.medium"
+  ]
+}
+
+variable "asg_lt_name" {
+  type = string
+  default = "final-project-asg-lt"
+}
+
+variable "asg_lt_inst_shutdown" {
+  type = string
+  default = "terminate"
+}
+
+variable "asg_lt_keypair" {
+  type = string
+  default = "fp-eks-worker-node-key-pair"
+}
+
+variable "asg_lt_mem" {
+  type = number
+  default = 4096
+}
+
+variable "asg_lt_vcpu" {
+  type = number
+  default = 2
+}
+
 #not for main variables
 variable "asg_pub_sub_ids" {
   type = list(string)
@@ -116,3 +165,4 @@ variable "asg_pub_sub_ids" {
 variable "vpc_id" {
   type = string
 }
+

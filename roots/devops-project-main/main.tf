@@ -67,6 +67,15 @@ module "eks_cluster" {
   asg_health_grace_period = var.asg_health_grace_period
   asg_health_type         = var.asg_health_type
   asg_cap_rebalance       = var.asg_cap_rebalance
+  on_dem_base             = var.on_dem_base
+  on_dem_percent_over     = var.on_dem_percent_over
+  spot_strategy           = var.spot_strategy
+  spot_inst_type          = var.spot_inst_type
+  asg_lt_name             = var.asg_lt_name
+  asg_lt_inst_shutdown    = var.asg_lt_inst_shutdown
+  asg_lt_keypair          = var.asg_lt_keypair
+  asg_lt_mem              = var.asg_lt_mem
+  asg_lt_vcpu             = var.asg_lt_vcpu
 }
 
 ### EKS Outputs###

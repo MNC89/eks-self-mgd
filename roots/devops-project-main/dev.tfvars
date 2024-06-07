@@ -67,3 +67,17 @@ asg_desired_size        = 3
 asg_health_grace_period = 300
 asg_health_type         = "EC2"
 asg_cap_rebalance       = true
+on_dem_base             = 0
+on_dem_percent_over     = 20
+spot_strategy           = "capacity-optimized"
+spot_inst_type = [
+  "t3.medium",
+  "t3a.medium",
+  "t2.medium"
+]
+### EKS ASG launch template variables ###
+asg_lt_name          = "final-project-asg-lt"
+asg_lt_inst_shutdown = "terminate"
+asg_lt_keypair       = "fp-eks-worker-node-key-pair"
+asg_lt_mem           = 4096
+asg_lt_vcpu          = 2

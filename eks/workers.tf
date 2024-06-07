@@ -18,9 +18,9 @@ resource "aws_autoscaling_group" "fp_asg" {
 
   mixed_instances_policy {
     instances_distribution {
-      on_demand_base_capacity                  = 0
-      on_demand_percentage_above_base_capacity = 20
-      spot_allocation_strategy                 = "capacity-optimized"
+      on_demand_base_capacity                  = var.on_dem_base
+      on_demand_percentage_above_base_capacity = var.on_dem_percent_over
+      spot_allocation_strategy                 = var.spot_strategy
     }
 
     launch_template {
@@ -30,15 +30,15 @@ resource "aws_autoscaling_group" "fp_asg" {
       }
 
       override {
-        instance_type = "t3.medium"
+        instance_type = var.spot_inst_type[0]
       }
 
       override {
-        instance_type = "t3a.medium"
+        instance_type = var.spot_inst_type[1]
       }
 
       override {
-        instance_type = "t2.medium"
+        instance_type = var.spot_inst_type[2]
       }
     }
   }
@@ -73,19 +73,19 @@ data "aws_ssm_parameter" "eks_worker_ami" {
 }
 
 resource "aws_launch_template" "fp_asg_lt" {
-  name                                 = "final-project-asg-lt"
+  name                                 = var.asg_lt_name
   image_id                             = data.aws_ssm_parameter.eks_worker_ami.value # Use the latest EKS optimized AMI
-  instance_initiated_shutdown_behavior = "terminate"
-  key_name                             = "fp-eks-worker-node-key-pair"
+  instance_initiated_shutdown_behavior = var.asg_lt_inst_shutdown
+  key_name                             = var.asg_lt_keypair
   vpc_security_group_ids               = [aws_eks_cluster.fp_eks_cluster.vpc_config[0].cluster_security_group_id, aws_security_group.worker_node_sg.id]
 
   instance_requirements {
-    allowed_instance_types = ["t3.medium", "t3a.medium", "t2.medium"]
+    allowed_instance_types = var.spot_inst_type
     memory_mib {
-      min = 4096
+      min = var.asg_lt_mem
     }
     vcpu_count {
-      min = 2
+      min = var.asg_lt_vcpu
     }
   }
 
