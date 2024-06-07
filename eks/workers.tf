@@ -1,14 +1,14 @@
 ### Worker Nodes ASG ###
 
 resource "aws_autoscaling_group" "fp_asg" {
-  name                      = "final-project-asg"
-  max_size                  = 5
-  min_size                  = 1
-  desired_capacity          = 3
-  health_check_grace_period = 300
-  health_check_type         = "EC2"
+  name                      = var.asg_name
+  max_size                  = var.asg_max_size
+  min_size                  = var.asg_min_size
+  desired_capacity          = var.asg_desired_size
+  health_check_grace_period = var.asg_health_grace_period
+  health_check_type         = var.asg_health_type
   vpc_zone_identifier       = var.asg_pub_sub_ids
-  capacity_rebalance        = true
+  capacity_rebalance        = var.asg_cap_rebalance
 
   depends_on = [
     aws_iam_role_policy_attachment.AmazonEKSWorkerNodePolicy,

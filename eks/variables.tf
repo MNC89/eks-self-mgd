@@ -73,6 +73,42 @@ variable "eks_sg_name" {
 
 ### workers.tf Variables ###
 
+variable "asg_name" {
+  type    = string
+  default = "final-project-asg"
+}
+
+variable "asg_max_size" {
+  type    = number
+  default = 5
+}
+
+variable "asg_min_size" {
+  type    = number
+  default = 1
+}
+
+variable "asg_desired_size" {
+  type    = number
+  default = 3
+}
+
+variable "asg_health_grace_period" {
+  type    = number
+  default = 300
+}
+
+variable "asg_health_type" {
+  type    = string
+  default = "EC2"
+}
+
+variable "asg_cap_rebalance" {
+  type    = bool
+  default = true
+}
+
+#not for main variables
 variable "asg_pub_sub_ids" {
   type = list(string)
 }

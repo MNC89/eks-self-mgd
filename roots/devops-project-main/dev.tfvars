@@ -59,3 +59,11 @@ ebs_csi_addon_name = "aws-ebs-csi-driver"
 ebs_csi_role_name  = "fp-eks-ebs-csi-role"
 ### EKS security group variables ###
 eks_sg_name = "eks-sg"
+### EKS ASG variables
+asg_name                = "final-project-asg"
+asg_max_size            = 5
+asg_min_size            = 1
+asg_desired_size        = 3
+asg_health_grace_period = 300
+asg_health_type         = "EC2"
+asg_cap_rebalance       = true
