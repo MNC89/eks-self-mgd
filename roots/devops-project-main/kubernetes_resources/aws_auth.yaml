@@ -9,7 +9,7 @@ data:
       - system:bootstrappers
       - system:nodes
       rolearn: arn:aws:iam::383585068161:role/fp-eks-worker-node-role
-      username: "system:node:{{EC2PrivateDNS}}"
+      username: system:node:{{EC2PrivateDNSName}}
     - groups:
       - system:masters
       rolearn: arn:aws:iam::383585068161:role/AWSReservedSSO_Administrator_a72305569e9173dc
