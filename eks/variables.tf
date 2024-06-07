@@ -27,27 +27,27 @@ variable "eks_policy" {
 }
 
 variable "vpc_cni_addon_name" {
-  type = string
+  type    = string
   default = "vpc-cni"
 }
 
 variable "vpc_cni_role_name" {
-  type = string
+  type    = string
   default = "fp-eks-vpc-cni-role"
 }
 
 variable "ebs_csi_addon_name" {
-  type = string
+  type    = string
   default = "aws-ebs-csi-driver"
 }
 
 variable "ebs_csi_role_name" {
-  type = string
+  type    = string
   default = "fp-eks-ebs-csi-role"
 }
 
 variable "eks_sg_name" {
-  type = string
+  type    = string
   default = "eks-sg"
 }
 

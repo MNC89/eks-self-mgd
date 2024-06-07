@@ -47,19 +47,19 @@ output "vpc_id" {
 ### EKS ###
 
 module "eks_cluster" {
-  source           = "../../eks"
-  eks_cluster_name = var.eks_cluster_name
-  k8_version       = var.k8_version
-  eks_pub_sub_ids  = module.vpc.public_subnet_ids
-  asg_pub_sub_ids  = module.vpc.public_subnet_ids
-  vpc_id           = module.vpc.fp_vpc_id
-  eks_iam_role_name = var.eks_iam_role_name
-  eks_policy = var.eks_policy
+  source             = "../../eks"
+  eks_cluster_name   = var.eks_cluster_name
+  k8_version         = var.k8_version
+  eks_pub_sub_ids    = module.vpc.public_subnet_ids
+  asg_pub_sub_ids    = module.vpc.public_subnet_ids
+  vpc_id             = module.vpc.fp_vpc_id
+  eks_iam_role_name  = var.eks_iam_role_name
+  eks_policy         = var.eks_policy
   vpc_cni_addon_name = var.vpc_cni_addon_name
-  vpc_cni_role_name = var.vpc_cni_role_name
+  vpc_cni_role_name  = var.vpc_cni_role_name
   ebs_csi_addon_name = var.ebs_csi_addon_name
-  ebs_csi_role_name = var.ebs_csi_role_name
-  eks_sg_name = var.eks_sg_name
+  ebs_csi_role_name  = var.ebs_csi_role_name
+  eks_sg_name        = var.eks_sg_name
 }
 
 ### EKS Outputs###

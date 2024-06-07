@@ -88,7 +88,7 @@ resource "aws_iam_role" "cni_role" {
   name               = var.vpc_cni_role_name
 }
 
-resource "aws_iam_role_policy_attachment" "AmazonEKS_CNI_Policy" {
+resource "aws_iam_role_policy_attachment" "Addon_AmazonEKS_CNI_Policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
   role       = aws_iam_role.cni_role.name
 }

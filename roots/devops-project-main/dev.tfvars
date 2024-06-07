@@ -45,17 +45,17 @@ private_subnet_object = {
   }
 }
 ### EKS cluster variables ###
-eks_cluster_name = "final-project-eks-cluster-dev"
-k8_version       = "1.29"
+eks_cluster_name  = "final-project-eks-cluster-dev"
+k8_version        = "1.29"
 eks_iam_role_name = "fp-eks-cluster-role"
-eks_policy = [ 
-    "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
-    "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController" 
-  ]
+eks_policy = [
+  "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
+  "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
+]
 ### EKS add_on variables ###
 vpc_cni_addon_name = "vpc-cni"
-vpc_cni_role_name = "fp-eks-vpc-cni-role"
+vpc_cni_role_name  = "fp-eks-vpc-cni-role"
 ebs_csi_addon_name = "aws-ebs-csi-driver"
-ebs_csi_role_name = "fp-eks-ebs-csi-role"
+ebs_csi_role_name  = "fp-eks-ebs-csi-role"
 ### EKS security group variables ###
 eks_sg_name = "eks-sg"
