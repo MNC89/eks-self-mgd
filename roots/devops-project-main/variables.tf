@@ -104,10 +104,6 @@ variable "k8_version" {
   default = "1.29"
 }
 
-variable "eks_pub_sub_ids" {
-  type = list(string)
-}
-
 variable "eks_iam_role_name" {
   type    = string
   default = "fp-eks-cluster-role"
