@@ -8,7 +8,7 @@ data:
     - groups:
       - system:bootstrappers
       - system:nodes
-      rolearn: arn:aws:iam::383585068161:instance-profile/fp-eks-worker-node-instance-profile
+      rolearn: arn:aws:iam::383585068161:role/fp-eks-worker-node-role
       username: "system:node:{{EC2PrivateDNS}}"
     - groups:
       - system:masters
