@@ -144,15 +144,6 @@ resource "aws_vpc_security_group_ingress_rule" "allow_self" {
 
 }
 
-resource "aws_vpc_security_group_ingress_rule" "allow_https" {
-  security_group_id            = aws_security_group.worker_node_sg.id
-  referenced_security_group_id = aws_eks_cluster.fp_eks_cluster.vpc_config[0].cluster_security_group_id
-  description                  = "Allow worker nodes in group eks nodegroup to communicate with control plane (workloads using HTTPS port)"
-  from_port                    = 443
-  ip_protocol                  = "tcp"
-  to_port                      = 443
-}
-
 resource "aws_vpc_security_group_ingress_rule" "allow_kubelet" {
   security_group_id            = aws_security_group.worker_node_sg.id
   referenced_security_group_id = aws_eks_cluster.fp_eks_cluster.vpc_config[0].cluster_security_group_id
@@ -160,6 +151,32 @@ resource "aws_vpc_security_group_ingress_rule" "allow_kubelet" {
   from_port                    = 1025
   ip_protocol                  = "tcp"
   to_port                      = 65535
+}
+
+resource "aws_vpc_security_group_ingress_rule" "allow_nlb_nodeport_traffic" {
+  security_group_id = aws_security_group.worker_node_sg.id
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 30000
+  ip_protocol       = "tcp"
+  to_port           = 32767
+}
+
+resource "aws_vpc_security_group_ingress_rule" "allow_https" {
+  security_group_id            = aws_security_group.worker_node_sg.id
+  cidr_ipv4                    = "0.0.0.0/0"
+  description                  = "Allow all https traffic"
+  from_port                    = 443
+  ip_protocol                  = "tcp"
+  to_port                      = 443
+}
+
+resource "aws_vpc_security_group_ingress_rule" "allow_http" {
+  security_group_id            = aws_security_group.worker_node_sg.id
+  cidr_ipv4                    = "0.0.0.0/0"
+  description                  = "Allow all http traffic"
+  from_port                    = 80
+  ip_protocol                  = "tcp"
+  to_port                      = 80
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_ssh" {
