@@ -10,7 +10,11 @@ resource "aws_autoscaling_group" "fp_asg" {
   vpc_zone_identifier       = var.asg_pub_sub_ids
   capacity_rebalance        = true
 
-  depends_on = [aws_eks_cluster.fp_eks_cluster]
+  depends_on = [
+    aws_iam_role_policy_attachment.AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.AmazonEC2ContainerRegistryReadOnly
+    ]
 
   mixed_instances_policy {
     instances_distribution {
