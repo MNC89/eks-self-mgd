@@ -14,7 +14,7 @@ resource "aws_autoscaling_group" "fp_asg" {
     aws_iam_role_policy_attachment.AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.AmazonEKS_CNI_Policy,
     aws_iam_role_policy_attachment.AmazonEC2ContainerRegistryReadOnly
-    ]
+  ]
 
   mixed_instances_policy {
     instances_distribution {
@@ -162,21 +162,21 @@ resource "aws_vpc_security_group_ingress_rule" "allow_nlb_nodeport_traffic" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_https" {
-  security_group_id            = aws_security_group.worker_node_sg.id
-  cidr_ipv4                    = "0.0.0.0/0"
-  description                  = "Allow all https traffic"
-  from_port                    = 443
-  ip_protocol                  = "tcp"
-  to_port                      = 443
+  security_group_id = aws_security_group.worker_node_sg.id
+  cidr_ipv4         = "0.0.0.0/0"
+  description       = "Allow all https traffic"
+  from_port         = 443
+  ip_protocol       = "tcp"
+  to_port           = 443
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_http" {
-  security_group_id            = aws_security_group.worker_node_sg.id
-  cidr_ipv4                    = "0.0.0.0/0"
-  description                  = "Allow all http traffic"
-  from_port                    = 80
-  ip_protocol                  = "tcp"
-  to_port                      = 80
+  security_group_id = aws_security_group.worker_node_sg.id
+  cidr_ipv4         = "0.0.0.0/0"
+  description       = "Allow all http traffic"
+  from_port         = 80
+  ip_protocol       = "tcp"
+  to_port           = 80
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_ssh" {
@@ -240,7 +240,3 @@ resource "aws_iam_role_policy_attachment" "AmazonEKS_CNI_Policy" {
   role       = aws_iam_role.node_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "AmazonEBSCSIDriverPolicy" {
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
-  role       = aws_iam_role.node_iam_role.name
-}

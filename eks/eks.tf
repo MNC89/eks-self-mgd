@@ -80,6 +80,15 @@ data "aws_iam_policy_document" "eks_oidc_assume_role_policy" {
   }
 }
 
+## EKS Add Ons ###
+
+resource "aws_eks_addon" "cni" {
+  depends_on               = [aws_iam_role.cni_role]
+  cluster_name             = aws_eks_cluster.fp_eks_cluster.name
+  addon_name               = "vpc-cni"
+  service_account_role_arn = aws_iam_role.cni_role.arn
+}
+
 resource "aws_iam_role" "cni_role" {
   assume_role_policy = data.aws_iam_policy_document.eks_oidc_assume_role_policy.json
   name               = "fp-eks-vpc-cni-role"
@@ -90,21 +99,23 @@ resource "aws_iam_role_policy_attachment" "cni_role_attachment" {
   role       = aws_iam_role.cni_role.name
 }
 
-## EKS Add On ###
-
-resource "aws_eks_addon" "cni" {
-  depends_on               = [aws_iam_role.cni_role]
+##https://davegallant.ca/blog/amazon-ebs-csi-driver-terraform/
+resource "aws_eks_addon" "ebs" {
+  depends_on               = [aws_iam_role.ebs_csi_role]
   cluster_name             = aws_eks_cluster.fp_eks_cluster.name
-  addon_name               = "vpc-cni"
-  service_account_role_arn = aws_iam_role.cni_role.arn
+  addon_name               = "aws-ebs-csi-driver"
+  service_account_role_arn = aws_iam_role.ebs_csi_role.arn
 }
 
-##https://davegallant.ca/blog/amazon-ebs-csi-driver-terraform/
-# resource "aws_eks_addon" "ebs" {
-#   cluster_name = aws_eks_cluster.fp_eks_cluster.name
-#   addon_name   = "aws-ebs-csi-driver"
-#   service_account_role_arn = aws_iam_role.node_iam_role.arn
-# }
+resource "aws_iam_role" "ebs_csi_role" {
+  assume_role_policy = data.aws_iam_policy_document.eks_oidc_assume_role_policy.json
+  name               = "fp-eks-ebs-csi-role"
+}
+
+resource "aws_iam_role_policy_attachment" "AmazonEBSCSIDriverPolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+  role       = aws_iam_role.ebs_csi_role.name
+}
 
 ### EKS SG ###
 
