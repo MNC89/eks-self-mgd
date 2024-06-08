@@ -92,23 +92,23 @@ resource "aws_iam_role_policy_attachment" "Addon_AmazonEKS_CNI_Policy" {
   role       = aws_iam_role.cni_role.name
 }
 
-# ##https://davegallant.ca/blog/amazon-ebs-csi-driver-terraform/
-# resource "aws_eks_addon" "ebs" {
-#   depends_on               = [aws_iam_role.ebs_csi_role]
-#   cluster_name             = aws_eks_cluster.fp_eks_cluster.name
-#   addon_name               = var.ebs_csi_addon_name
-#   service_account_role_arn = aws_iam_role.ebs_csi_role.arn
-# }
+##https://davegallant.ca/blog/amazon-ebs-csi-driver-terraform/
+resource "aws_eks_addon" "ebs" {
+  depends_on               = [aws_iam_role.ebs_csi_role]
+  cluster_name             = aws_eks_cluster.fp_eks_cluster.name
+  addon_name               = var.ebs_csi_addon_name
+  service_account_role_arn = aws_iam_role.ebs_csi_role.arn
+}
 
-# resource "aws_iam_role" "ebs_csi_role" {
-#   assume_role_policy = data.aws_iam_policy_document.eks_oidc_assume_role_policy.json
-#   name               = var.ebs_csi_role_name
-# }
+resource "aws_iam_role" "ebs_csi_role" {
+  assume_role_policy = data.aws_iam_policy_document.eks_oidc_assume_role_policy.json
+  name               = var.ebs_csi_role_name
+}
 
-# resource "aws_iam_role_policy_attachment" "AmazonEBSCSIDriverPolicy" {
-#   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
-#   role       = aws_iam_role.ebs_csi_role.name
-# }
+resource "aws_iam_role_policy_attachment" "AmazonEBSCSIDriverPolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+  role       = aws_iam_role.ebs_csi_role.name
+}
 
 ### EKS SG ###
 
