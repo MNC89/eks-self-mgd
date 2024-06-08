@@ -71,8 +71,6 @@ on_dem_base             = 0
 on_dem_percent_over     = 20
 spot_strategy           = "capacity-optimized"
 spot_inst_type = [
-  "t3a.large",
-  "t3a.large",
   "t3a.large"
 ]
 ### EKS ASG launch template variables ###
