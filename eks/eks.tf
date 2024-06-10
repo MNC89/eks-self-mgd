@@ -73,13 +73,15 @@ data "aws_iam_policy_document" "eks_oidc_assume_role_policy" {
   }
 }
 
-## EKS Add Ons ###
+## EKS Add Ons ### #v1.18.2-eksbuild.1
 
 resource "aws_eks_addon" "cni" {
-  depends_on               = [aws_iam_role.cni_role]
-  cluster_name             = aws_eks_cluster.fp_eks_cluster.name
-  addon_name               = var.vpc_cni_addon_name
-  service_account_role_arn = aws_iam_role.cni_role.arn
+  depends_on                  = [aws_iam_role.cni_role]
+  cluster_name                = aws_eks_cluster.fp_eks_cluster.name
+  addon_name                  = var.vpc_cni_addon_name
+  addon_version               = "v1.18.2-eksbuild.1"
+  resolve_conflicts_on_update = "PRESERVE"
+  service_account_role_arn    = aws_iam_role.cni_role.arn
 }
 
 resource "aws_iam_role" "cni_role" {
