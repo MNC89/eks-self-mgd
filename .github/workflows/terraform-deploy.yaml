@@ -89,8 +89,7 @@ jobs:
       - name: Get Load Balancer name
         id: get-nlb-name
         run: |
-          nlb_name=$(kubectl get svc ingress-nginx-controller -n ingress-nginx -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-          echo "NLB_NAME=${nlb_name}" >> $GITHUB_ENV
+          echo "NLB_NAME=$(kubectl get svc ingress-nginx-controller -n ingress-nginx -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')" >> $GITHUB_ENV
           echo "The NLB name is ${{ env.NLB_NAME }}"
     
       # - name: Terraform Destroy
