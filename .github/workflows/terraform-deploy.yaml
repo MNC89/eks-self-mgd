@@ -73,6 +73,12 @@ jobs:
           aws eks update-kubeconfig --name final-project-eks-cluster-${ENVIRONMENT_STAGE} --region $AWS_REGION
           kubectl apply -f ./kubernetes_resources/aws_auth_${ENVIRONMENT_STAGE}.yaml
 
+      #Enable Prefix Delegation for VPC CNI plugin
+      - name: Enable Prefix Delegation for VPC CNI plugin
+        run: |
+          kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
+
+
       # Deploy ingress controller
       - name: Deploy ingress-nginx controller
         run: |
