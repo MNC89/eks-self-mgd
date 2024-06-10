@@ -79,8 +79,8 @@ resource "aws_eks_addon" "cni" {
   depends_on                  = [aws_iam_role.cni_role]
   cluster_name                = aws_eks_cluster.fp_eks_cluster.name
   addon_name                  = var.vpc_cni_addon_name
-  addon_version               = "v1.18.2-eksbuild.1"
-  resolve_conflicts_on_update = "PRESERVE"
+  addon_version               = var.vpc_cni_version
+  resolve_conflicts_on_update = var.vpc_cni_update_resolve
   service_account_role_arn    = aws_iam_role.cni_role.arn
 }
 

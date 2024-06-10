@@ -53,10 +53,12 @@ eks_policy = [
   "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
 ]
 ### EKS add_on variables ###
-vpc_cni_addon_name = "vpc-cni"
-vpc_cni_role_name  = "fp-eks-vpc-cni-role"
-ebs_csi_addon_name = "aws-ebs-csi-driver"
-ebs_csi_role_name  = "fp-eks-ebs-csi-role"
+vpc_cni_addon_name     = "vpc-cni"
+vpc_cni_version        = "v1.18.2-eksbuild.1"
+vpc_cni_update_resolve = "PRESERVE"
+vpc_cni_role_name      = "fp-eks-vpc-cni-role"
+ebs_csi_addon_name     = "aws-ebs-csi-driver"
+ebs_csi_role_name      = "fp-eks-ebs-csi-role"
 ### EKS security group variables ###
 eks_sg_name = "eks-sg"
 ### EKS ASG variables

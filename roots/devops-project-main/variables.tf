@@ -124,6 +124,16 @@ variable "vpc_cni_addon_name" {
   default = "vpc-cni"
 }
 
+variable "vpc_cni_version" {
+  type    = string
+  default = "v1.18.2-eksbuild.1"
+}
+
+variable "vpc_cni_update_resolve" {
+  type    = string
+  default = "PRESERVE"
+}
+
 variable "vpc_cni_role_name" {
   type    = string
   default = "fp-eks-vpc-cni-role"
