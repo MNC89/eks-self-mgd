@@ -31,13 +31,13 @@ resource "aws_autoscaling_group" "fp_asg" {
         instance_type = var.spot_inst_type[0]
       }
 
-      # override {
-      #   instance_type = var.spot_inst_type[1]
-      # }
+      override {
+        instance_type = var.spot_inst_type[1]
+      }
 
-      # override {
-      #   instance_type = var.spot_inst_type[2]
-      # }
+      override {
+        instance_type = var.spot_inst_type[2]
+      }
     }
   }
 
