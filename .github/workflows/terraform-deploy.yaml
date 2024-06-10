@@ -91,6 +91,7 @@ jobs:
         run: |
           nlb_name=$(kubectl get svc ingress-nginx-controller -n ingress-nginx -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
           echo "NLB_NAME=${nlb_name}" >> $GITHUB_ENV
+          echo "The NLB name is ${{ env.NLB_NAME }}"
     
       # - name: Terraform Destroy
       #   run: terraform destroy -auto-approve -input=false -var-file=${ENVIRONMENT_STAGE}.tfvars
