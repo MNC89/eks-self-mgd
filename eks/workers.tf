@@ -107,8 +107,8 @@ resource "aws_launch_template" "fp_asg_lt" {
 
     tags = {
       Name                                                  = "final-project-eks-worker-node"
-      "kubernetes.io/cluster/final-project-eks-cluster-dev" = "owned"
-      "aws:eks:cluster-name"                                = "final-project-eks-cluster-dev"
+      "kubernetes.io/cluster/${var.eks_cluster_name}" = "owned"
+      "aws:eks:cluster-name"                                = var.eks_cluster_name
     }
   }
 
@@ -131,8 +131,8 @@ resource "aws_security_group" "worker_node_sg" {
 
   tags = {
     Name                                                  = "${var.wk_name}-sg"
-    "kubernetes.io/cluster/final-project-eks-cluster-dev" = "owned"
-    "aws:eks:cluster-name"                                = "final-project-eks-cluster-dev"
+    "kubernetes.io/cluster/${var.eks_cluster_name}" = "owned"
+    "aws:eks:cluster-name"                                = var.eks_cluster_name
   }
 }
 

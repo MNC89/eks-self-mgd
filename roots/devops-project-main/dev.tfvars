@@ -45,7 +45,7 @@ private_subnet_object = {
   }
 }
 ### EKS cluster variables ###
-eks_cluster_name  = "final-project-eks-cluster-dev"
+eks_cluster_name  = "final-project-eks-cluster-dev" #change this per environment!
 k8_version        = "1.29"
 eks_iam_role_name = "fp-eks-cluster-role"
 eks_policy = [
