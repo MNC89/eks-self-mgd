@@ -115,7 +115,7 @@ resource "aws_launch_template" "fp_asg_lt" {
   user_data = base64encode(<<-EOF
                 #!/bin/bash
                 set -o xtrace
-                /etc/eks/bootstrap.sh final-project-eks-cluster-dev
+                /etc/eks/bootstrap.sh final-project-eks-cluster-dev \
                   --use-max-pods false \
                   --kubelet-extra-args '--max-pods=110' 
               EOF

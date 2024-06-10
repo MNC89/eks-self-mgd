@@ -91,5 +91,6 @@ worker_policy = [
   "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
   "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
   "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
+  "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy",
   "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
 ]
