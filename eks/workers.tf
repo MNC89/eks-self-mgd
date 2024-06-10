@@ -106,9 +106,9 @@ resource "aws_launch_template" "fp_asg_lt" {
     resource_type = "instance"
 
     tags = {
-      Name                                                  = "final-project-eks-worker-node"
+      Name                                            = "final-project-eks-worker-node"
       "kubernetes.io/cluster/${var.eks_cluster_name}" = "owned"
-      "aws:eks:cluster-name"                                = var.eks_cluster_name
+      "aws:eks:cluster-name"                          = var.eks_cluster_name
     }
   }
 
@@ -130,9 +130,9 @@ resource "aws_security_group" "worker_node_sg" {
   vpc_id      = var.vpc_id
 
   tags = {
-    Name                                                  = "${var.wk_name}-sg"
+    Name                                            = "${var.wk_name}-sg"
     "kubernetes.io/cluster/${var.eks_cluster_name}" = "owned"
-    "aws:eks:cluster-name"                                = var.eks_cluster_name
+    "aws:eks:cluster-name"                          = var.eks_cluster_name
   }
 }
 
@@ -225,23 +225,3 @@ resource "aws_iam_role_policy_attachment" "node_policy" {
   policy_arn = each.value
   role       = aws_iam_role.node_iam_role.name
 }
-
-# resource "aws_iam_role_policy_attachment" "AmazonEKSWorkerNodePolicy" {
-#   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
-#   role       = aws_iam_role.node_iam_role.name
-# }
-
-# resource "aws_iam_role_policy_attachment" "AmazonEC2ContainerRegistryReadOnly" {
-#   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-#   role       = aws_iam_role.node_iam_role.name
-# }
-
-# resource "aws_iam_role_policy_attachment" "AmazonSSMManagedInstanceCore" {
-#   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
-#   role       = aws_iam_role.node_iam_role.name
-# }
-
-# resource "aws_iam_role_policy_attachment" "AmazonEKS_CNI_Policy" {
-#   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
-#   role       = aws_iam_role.node_iam_role.name
-# }

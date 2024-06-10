@@ -90,4 +90,3 @@ module "eks_cluster" {
 output "eks_sg" {
   value = module.eks_cluster.eks_sg
 }
-

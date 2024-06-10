@@ -205,4 +205,3 @@ variable "asg_pub_sub_ids" {
 variable "vpc_id" {
   type = string
 }
-

@@ -119,9 +119,9 @@ resource "aws_security_group" "eks_cluster_sg" {
   vpc_id = var.vpc_id
 
   tags = {
-    Name                                  = var.eks_sg_name
+    Name                                            = var.eks_sg_name
     "kubernetes.io/cluster/${var.eks_cluster_name}" = "owned"
-    "aws:eks:cluster-name"                = var.eks_cluster_name
+    "aws:eks:cluster-name"                          = var.eks_cluster_name
   }
 }
 
@@ -142,4 +142,3 @@ resource "aws_vpc_security_group_egress_rule" "all_traffic_ipv4" {
   cidr_ipv4         = "0.0.0.0/0"
   ip_protocol       = "-1"
 }
-
