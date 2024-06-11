@@ -54,6 +54,18 @@ resource "aws_autoscaling_group" "fp_asg" {
   }
 
   tag {
+    key                 = "k8s.io/cluster-autoscaler/${var.eks_cluster_name}"
+    value               = "owned"
+    propagate_at_launch = true
+  }
+
+  tag {
+    key                 = "k8s.io/cluster-autoscaler/enabled"
+    value               = "true"
+    propagate_at_launch = true
+  }
+
+  tag {
     key                 = "aws:eks:cluster-name"
     value               = var.eks_cluster_name
     propagate_at_launch = true
