@@ -73,6 +73,34 @@ data "aws_iam_policy_document" "eks_oidc_assume_role_policy" {
   }
 }
 
+data "aws_iam_policy_document" "ebs_csi_driver_assume_role" {
+  statement {
+    effect = "Allow"
+
+    principals {
+      type        = "Federated"
+      identifiers = [aws_iam_openid_connect_provider.eks.arn]
+    }
+
+    actions = [
+      "sts:AssumeRoleWithWebIdentity",
+    ]
+
+    condition {
+      test     = "StringEquals"
+      variable = "${aws_iam_openid_connect_provider.eks.url}:aud"
+      values   = ["sts.amazonaws.com"]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "${aws_iam_openid_connect_provider.eks.url}:sub"
+      values   = ["system:serviceaccount:kube-system:ebs-csi-controller-sa"]
+    }
+
+  }
+}
+
 ## EKS Add Ons ### #v1.18.2-eksbuild.1
 
 resource "aws_eks_addon" "cni" {
@@ -103,7 +131,7 @@ resource "aws_eks_addon" "ebs" {
 }
 
 resource "aws_iam_role" "ebs_csi_role" {
-  assume_role_policy = data.aws_iam_policy_document.eks_oidc_assume_role_policy.json
+  assume_role_policy = data.aws_iam_policy_document.ebs_csi_driver_assume_role.json
   name               = var.ebs_csi_role_name
 }
 
