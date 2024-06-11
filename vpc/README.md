@@ -2,7 +2,7 @@
 
 This VPC is designed to be deployed alongside and EKS cluster. It is configured to support a variety of applications that require both public and private subnets.  
 
-The key features are:
+### The key features are:
 * VPC with unique CIDR 
   * "DNS Hostnames" enabled - required for EKS
 * Three public subnets

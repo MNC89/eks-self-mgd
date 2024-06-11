@@ -78,7 +78,6 @@ jobs:
         run: |
           kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
 
-
       # Deploy ingress controller
       - name: Deploy ingress-nginx controller
         run: |

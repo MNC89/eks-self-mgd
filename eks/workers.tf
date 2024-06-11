@@ -48,14 +48,14 @@ resource "aws_autoscaling_group" "fp_asg" {
   }
 
   tag {
-    key                 = "kubernetes.io/cluster/final-project-eks-cluster-dev"
+    key                 = "kubernetes.io/cluster/${var.eks_cluster_name}"
     value               = "owned"
     propagate_at_launch = true
   }
 
   tag {
     key                 = "aws:eks:cluster-name"
-    value               = "final-project-eks-cluster-dev"
+    value               = var.eks_cluster_name
     propagate_at_launch = true
   }
 
@@ -115,7 +115,7 @@ resource "aws_launch_template" "fp_asg_lt" {
   user_data = base64encode(<<-EOF
                 #!/bin/bash
                 set -o xtrace
-                /etc/eks/bootstrap.sh final-project-eks-cluster-dev \
+                /etc/eks/bootstrap.sh ${var.eks_cluster_name} \
                   --use-max-pods false \
                   --kubelet-extra-args '--max-pods=110' 
               EOF
