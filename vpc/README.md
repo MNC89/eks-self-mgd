@@ -2,6 +2,8 @@
 
 This VPC is designed to be deployed alongside and EKS cluster. It is configured to support a variety of applications that require both public and private subnets.  
 
+<img src="./images/vpc_resourcemap.png">
+
 ### The key features are:
 * VPC with unique CIDR 
   * "DNS Hostnames" enabled - required for EKS
@@ -22,8 +24,3 @@ The VPC is deployed alongside the EKS cluster and apps in this repository using 
 ## Acknowledgments
 
 * Amazon EKS VPC and subnet requirements and considerations: https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html
-
-
-
-
-
