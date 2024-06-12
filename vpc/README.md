@@ -1,6 +1,6 @@
 ## About The Project
 
-This VPC is designed to be deployed alongside and EKS cluster. It is configured to support a variety of applications that require both public and private subnets.  
+This VPC is designed to be deployed alongside the EKS cluster. It is configured to support a variety of applications that require both public and private subnets.  
 
 <img src="./images/vpc_resourcemap.png">
 

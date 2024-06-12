@@ -37,8 +37,8 @@ The EKS cluster is deployed alongside the VPC and apps in this repository using 
   * Login to the kubernetes cluster
   * Set WARM_IP_TARGET and MINIMUM_IP_TARGET with your values
     * More information can be found [here](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/prefix-and-ip-target.md)
-  * `kubectl set env ds aws-node -n kube-system WARM_IP_TARGET=5`
-  * `kubectl set env ds aws-node -n kube-system MINIMUM_IP_TARGET=2`
+    * `kubectl set env ds aws-node -n kube-system WARM_IP_TARGET=5`
+    * `kubectl set env ds aws-node -n kube-system MINIMUM_IP_TARGET=2`
   * (Optional) Adjust the --max-pods flag in the bootstrap script of the launch template 
     * More information can be found [here](https://docs.aws.amazon.com/eks/latest/userguide/cni-increase-ip-addresses.html)
     * Default set to 110 (maximum for t3.medium)
