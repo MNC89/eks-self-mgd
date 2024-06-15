@@ -54,36 +54,33 @@ jobs:
       - name: Terraform Plan
         run: terraform plan -input=false -var-file=${ENVIRONMENT_STAGE}.tfvars
 
-      # # Build infrastructure according to Terraform configuration files
-      # - name: Terraform Apply
-      #   run: terraform apply -auto-approve -input=false -var-file=${ENVIRONMENT_STAGE}.tfvars
+      # Build infrastructure according to Terraform configuration files
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false -var-file=${ENVIRONMENT_STAGE}.tfvars
 
-      # - name: Capture Terraform Outputs
-      #   id: capture-outputs
-      #   run: |
-      #     echo "VPC_ID=$(terraform output -raw vpc_id)" >> $GITHUB_ENV
-      #     echo "PUBLIC_ID_1=$(terraform output -raw public_id_1)" >> $GITHUB_ENV
-      #     echo "PUBLIC_ID_2=$(terraform output -raw public_id_2)" >> $GITHUB_ENV
-      #     echo "PUBLIC_ID_3=$(terraform output -raw public_id_3)" >> $GITHUB_ENV
-      #     echo "EKS_SG=$(terraform output -raw eks_sg)" >> $GITHUB_ENV
+      - name: Capture Terraform Outputs
+        id: capture-outputs
+        run: |
+          echo "VPC_ID=$(terraform output -raw vpc_id)" >> $GITHUB_ENV
+          echo "PUBLIC_ID_1=$(terraform output -raw public_id_1)" >> $GITHUB_ENV
+          echo "PUBLIC_ID_2=$(terraform output -raw public_id_2)" >> $GITHUB_ENV
+          echo "PUBLIC_ID_3=$(terraform output -raw public_id_3)" >> $GITHUB_ENV
+          echo "EKS_SG=$(terraform output -raw eks_sg)" >> $GITHUB_ENV
 
-      # # Login to EKS
-      # - name: Login to EKS - update kubeconfig and apply aws-auth configmap
-      #   run: |
-      #     aws eks update-kubeconfig --name final-project-eks-cluster-${ENVIRONMENT_STAGE} --region $AWS_REGION
-      #     kubectl apply -f ./kubernetes_resources/aws_auth_${ENVIRONMENT_STAGE}.yaml
+      # Login to EKS
+      - name: Login to EKS - update kubeconfig and apply aws-auth configmap
+        run: |
+          aws eks update-kubeconfig --name final-project-eks-cluster-${ENVIRONMENT_STAGE} --region $AWS_REGION
+          kubectl apply -f ./kubernetes_resources/aws_auth_${ENVIRONMENT_STAGE}.yaml
 
-      # #Enable Prefix Delegation for VPC CNI plugin
-      # - name: Enable Prefix Delegation for VPC CNI plugin
-      #   run: |
-      #     kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
+      #Enable Prefix Delegation for VPC CNI plugin
+      - name: Enable Prefix Delegation for VPC CNI plugin
+        run: |
+          kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
 
-      # # Deploy ingress controller
-      # - name: Deploy ingress-nginx controller
-      #   run: |
-      #    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.1/deploy/static/provider/aws/deploy.yaml
-      #    kubectl -n ingress-nginx patch service ingress-nginx-controller -p '{"spec":{"externalTrafficPolicy":"Cluster"}}'
-      #    echo "$(kubectl get svc ingress-nginx-controller -n ingress-nginx -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')" 
-             
-      # - name: Terraform Destroy
-      #   run: terraform destroy -auto-approve -input=false -var-file=${ENVIRONMENT_STAGE}.tfvars
+      # Deploy ingress controller
+      - name: Deploy ingress-nginx controller
+        run: |
+         kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.1/deploy/static/provider/aws/deploy.yaml
+         kubectl -n ingress-nginx patch service ingress-nginx-controller -p '{"spec":{"externalTrafficPolicy":"Cluster"}}'
+         echo "$(kubectl get svc ingress-nginx-controller -n ingress-nginx -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')" 
