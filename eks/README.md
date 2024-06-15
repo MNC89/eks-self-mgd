@@ -50,3 +50,10 @@ The EKS cluster is deployed alongside the VPC and apps in this repository using 
 * Increasing available IP addresses on worker nodes: https://docs.aws.amazon.com/eks/latest/userguide/cni-increase-ip-addresses.html
 * VPC-CNI Prefix and IP targets: https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/prefix-and-ip-target.md
 * EKS Troubleshooting: https://docs.aws.amazon.com/eks/latest/userguide/troubleshooting.html#not-ready
+
+## Challenges
+
+* Lack of official Terraform and AWS documentation: Terraform does not have a module for a self managed node group and the AWS documentation only gives instructions on how to create one with eksctl or through the AWS Management Console. Finding documentation turned out to be challenging because of how involved it is to create a self managed node group. The upside, however is having very granular control.
+* Worker node keypair: I was initally going to create a keypair dynamically each time the workflow was run, but I realized that doing so would store a copy in the tf.state file. After researching many methods, I decided that the most secure was to have the user create one given the provided aws cli command and store it locally. 
+* Worker node AMI: I couldn't figure out which AMI to go with for the worker nodes because there were too many options. With a little research, I was able to find the EKS optimized nodes and pull the lastest AMI dynamically from ssm for the launch template.
+* VPC CNI: While I understood the basic concept of this addon, I had to do a lot of research to figure out how to set it up properly. Figuring out how to find the maximum pods that an instance can support and trying to understand what WARM_IP_TARGET and MINIMUM_IP_TARGET were definitely a challenge.
