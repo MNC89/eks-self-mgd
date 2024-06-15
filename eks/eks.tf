@@ -83,7 +83,7 @@ data "aws_iam_policy_document" "ebs_csi_driver_assume_role" {
 
     principals {
       type        = "Federated"
-      identifiers = [aws_iam_openid_connect_provider.eks.arn]
+      identifiers = [aws_iam_openid_connect_provider.oidc_provider.arn]
     }
 
     actions = [
@@ -92,13 +92,13 @@ data "aws_iam_policy_document" "ebs_csi_driver_assume_role" {
 
     condition {
       test     = "StringEquals"
-      variable = "${aws_iam_openid_connect_provider.eks.url}:aud"
+      variable = "${aws_iam_openid_connect_provider.oidc_provider.url}:aud"
       values   = ["sts.amazonaws.com"]
     }
 
     condition {
       test     = "StringEquals"
-      variable = "${aws_iam_openid_connect_provider.eks.url}:sub"
+      variable = "${aws_iam_openid_connect_provider.oidc_provider.url}:sub"
       values   = ["system:serviceaccount:kube-system:ebs-csi-controller-sa"]
     }
 
