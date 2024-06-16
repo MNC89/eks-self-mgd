@@ -1,4 +1,4 @@
-### EKS Cluster ###
+## EKS Cluster ###
 
 resource "aws_eks_cluster" "fp_eks_cluster" {
   name     = var.eks_cluster_name
@@ -17,7 +17,7 @@ resource "aws_eks_cluster" "fp_eks_cluster" {
   ]
 }
 
-### EKS Cluster IAM Role ###
+## EKS Cluster IAM Role ###
 
 data "aws_iam_policy_document" "assume_role" {
   statement {
@@ -43,13 +43,13 @@ resource "aws_iam_role_policy_attachment" "eks_policy" {
   role       = aws_iam_role.eks_iam_role.name
 }
 
-### EKS OIDC for Add Ons ### https://docs.aws.amazon.com/eks/latest/userguide/cni-iam-role.html
+## EKS OIDC for Add Ons ### https://docs.aws.amazon.com/eks/latest/userguide/cni-iam-role.html
 
 data "tls_certificate" "eks_tls" {
   url = aws_eks_cluster.fp_eks_cluster.identity[0].oidc[0].issuer
 }
 
-### VPC CNI ###
+## VPC CNI ###
 
 resource "aws_iam_openid_connect_provider" "oidc_provider" {
   client_id_list  = ["sts.amazonaws.com"]
@@ -75,7 +75,7 @@ data "aws_iam_policy_document" "eks_oidc_assume_role_policy" {
   }
 }
 
-### EBS CSI ###
+## EBS CSI ###
 
 data "aws_iam_policy_document" "ebs_csi_driver_assume_role" {
   statement {
@@ -105,7 +105,7 @@ data "aws_iam_policy_document" "ebs_csi_driver_assume_role" {
   }
 }
 
-## EKS Add Ons ### #v1.18.2-eksbuild.1
+# EKS Add Ons ### #v1.18.2-eksbuild.1
 
 resource "aws_eks_addon" "cni" {
   depends_on                  = [aws_iam_role.cni_role]
@@ -126,7 +126,7 @@ resource "aws_iam_role_policy_attachment" "Addon_AmazonEKS_CNI_Policy" {
   role       = aws_iam_role.cni_role.name
 }
 
-##https://davegallant.ca/blog/amazon-ebs-csi-driver-terraform/
+#https://davegallant.ca/blog/amazon-ebs-csi-driver-terraform/
 resource "aws_eks_addon" "ebs" {
   depends_on               = [aws_iam_role.ebs_csi_role, aws_autoscaling_group.fp_asg]
   cluster_name             = aws_eks_cluster.fp_eks_cluster.name
@@ -144,7 +144,7 @@ resource "aws_iam_role_policy_attachment" "AmazonEBSCSIDriverPolicy" {
   role       = aws_iam_role.ebs_csi_role.name
 }
 
-### EKS SG ###
+## EKS SG ###
 
 resource "aws_security_group" "eks_cluster_sg" {
   name   = var.eks_sg_name
