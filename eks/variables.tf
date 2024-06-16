@@ -61,26 +61,6 @@ variable "eks_sg_name" {
   default = "eks-sg"
 }
 
-# variable "eks_addon_object" {
-#   type = map(object({
-#     addon_name      = string,
-#     addon_role_name = string,
-#     addon_policy    = string
-#   }))
-#   default = {
-#     "vpc_cni" = {
-#       addon_name      = "vpc-cni",
-#       addon_role_name = "fp-eks-vpc-cni-role",
-#       addon_policy    = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
-#     },
-#     "ebs_csi" = {
-#       addon_name      = "aws-ebs-csi-driver",
-#       addon_role_name = "fp-eks-ebs-csi-role",
-#       addon_policy    = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
-#     }
-#   }
-# }
-
 ### workers.tf Variables ###
 
 variable "asg_name" {
