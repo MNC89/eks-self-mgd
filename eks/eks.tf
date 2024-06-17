@@ -17,11 +17,18 @@ resource "aws_eks_cluster" "fp_eks_cluster" {
   ]
 
   provisioner "local-exec" {
-    command = "aws eks update-kubeconfig --name $CLUSTER_NAME --region $REGION"
-
+    command = <<EOT
+      set -e
+      echo 'Applying aws-auth ConfigMap with kubectl...'
+      aws eks wait cluster-active --name $CLUSTER_NAME
+      aws eks update-kubeconfig --name $CLUSTER_NAME --region $REGION"
+      kubectl apply -f ./kubernetes_resources/aws_auth_$ENVIRONMENT.yaml
+    EOT
+  
     environment = {
       CLUSTER_NAME = var.eks_cluster_name
       REGION       = data.aws_region.current.name
+      ENVIRONMENT  = var.environment
     }
   }
 }

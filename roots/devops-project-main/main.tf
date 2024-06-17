@@ -52,6 +52,7 @@ module "eks_cluster" {
   eks_cluster_name        = var.eks_cluster_name
   k8_version              = var.k8_version
   eks_pub_sub_ids         = module.vpc.public_subnet_ids
+  environment             = var.environment
   asg_pub_sub_ids         = module.vpc.public_subnet_ids
   vpc_id                  = module.vpc.fp_vpc_id
   eks_iam_role_name       = var.eks_iam_role_name

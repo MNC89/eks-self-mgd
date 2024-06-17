@@ -104,6 +104,11 @@ variable "k8_version" {
   default = "1.29"
 }
 
+variable "environment" {
+  type = string
+  default = "dev"
+}
+
 variable "eks_iam_role_name" {
   type    = string
   default = "fp-eks-cluster-role"

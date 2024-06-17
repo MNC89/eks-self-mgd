@@ -47,6 +47,7 @@ private_subnet_object = {
 ### EKS cluster variables ###
 eks_cluster_name  = "final-project-eks-cluster-staging" #change this per environment!
 k8_version        = "1.29"
+environment       = "staging" #change this per environment!
 eks_iam_role_name = "fp-eks-cluster-role"
 eks_policy = [
   "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
