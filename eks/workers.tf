@@ -146,8 +146,6 @@ resource "aws_security_group" "worker_node_sg" {
 
   tags = {
     Name = "${var.wk_name}-sg"
-    # "kubernetes.io/cluster/${var.eks_cluster_name}" = "owned"
-    # "aws:eks:cluster-name"                          = var.eks_cluster_name
   }
 }
 
