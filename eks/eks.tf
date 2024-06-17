@@ -12,16 +12,25 @@ resource "aws_eks_cluster" "fp_eks_cluster" {
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Cluster handling.
   # Otherwise, EKS will not be able to properly delete EKS managed EC2 infrastructure such as Security Groups.
-  depends_on = [
-    aws_iam_role_policy_attachment.eks_policy,
-  ]
+  depends_on = [ aws_iam_role_policy_attachment.eks_policy ]
+}
+
+### Data block and to pull current region name used in eks provisioner ###
+
+data "aws_region" "current" {}
+
+### Terraform_data block to apply aws-auth configmap ###
+
+resource "terraform_data" "apply_aws_auth" {
+  depends_on = [ aws_eks_cluster.fp_eks_cluster ]
+  triggers_replace = [ aws_eks_cluster.fp_eks_cluster.id ]
 
   provisioner "local-exec" {
     command = <<EOT
       set -e
       echo 'Applying aws-auth ConfigMap with kubectl...'
       aws eks wait cluster-active --name $CLUSTER_NAME
-      aws eks update-kubeconfig --name $CLUSTER_NAME --region $REGION"
+      aws eks update-kubeconfig --name $CLUSTER_NAME --region $REGION
       kubectl apply -f ./kubernetes_resources/aws_auth_$ENVIRONMENT.yaml
     EOT
   
@@ -32,10 +41,6 @@ resource "aws_eks_cluster" "fp_eks_cluster" {
     }
   }
 }
-
-## Data block to pull current region name used in eks provisioner ###
-
-data "aws_region" "current" {}
 
 ## EKS Cluster IAM Role ###
 
