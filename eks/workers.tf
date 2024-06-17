@@ -53,17 +53,17 @@ resource "aws_autoscaling_group" "fp_asg" {
     propagate_at_launch = true
   }
 
-  # tag {
-  #   key                 = "k8s.io/cluster-autoscaler/${var.eks_cluster_name}"
-  #   value               = "owned"
-  #   propagate_at_launch = true
-  # }
+  tag {
+    key                 = "k8s.io/cluster-autoscaler/${var.eks_cluster_name}"
+    value               = "owned"
+    propagate_at_launch = true
+  }
 
-  # tag {
-  #   key                 = "k8s.io/cluster-autoscaler/enabled"
-  #   value               = "true"
-  #   propagate_at_launch = true
-  # }
+  tag {
+    key                 = "k8s.io/cluster-autoscaler/enabled"
+    value               = "true"
+    propagate_at_launch = true
+  }
 
   tag {
     key                 = "aws:eks:cluster-name"
@@ -146,8 +146,8 @@ resource "aws_security_group" "worker_node_sg" {
 
   tags = {
     Name                                            = "${var.wk_name}-sg"
-    "kubernetes.io/cluster/${var.eks_cluster_name}" = "owned"
-    "aws:eks:cluster-name"                          = var.eks_cluster_name
+    # "kubernetes.io/cluster/${var.eks_cluster_name}" = "owned"
+    # "aws:eks:cluster-name"                          = var.eks_cluster_name
   }
 }
 

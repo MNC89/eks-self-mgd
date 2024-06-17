@@ -50,6 +50,7 @@ The EKS cluster is deployed alongside the VPC and apps in this repository using 
 * Increasing available IP addresses on worker nodes: https://docs.aws.amazon.com/eks/latest/userguide/cni-increase-ip-addresses.html
 * VPC-CNI Prefix and IP targets: https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/prefix-and-ip-target.md
 * EKS Troubleshooting: https://docs.aws.amazon.com/eks/latest/userguide/troubleshooting.html#not-ready
+* EKS Security Groups: https://docs.aws.amazon.com/eks/latest/userguide/sec-group-reqs.html
 
 ## Challenges
 
