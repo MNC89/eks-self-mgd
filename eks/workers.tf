@@ -73,9 +73,9 @@ resource "aws_autoscaling_group" "fp_asg" {
 
   lifecycle {
     create_before_destroy = true
-    ignore_changes = [ 
+    ignore_changes = [
       desired_capacity
-     ]
+    ]
   }
 }
 
@@ -145,7 +145,7 @@ resource "aws_security_group" "worker_node_sg" {
   vpc_id      = var.vpc_id
 
   tags = {
-    Name                                            = "${var.wk_name}-sg"
+    Name = "${var.wk_name}-sg"
     # "kubernetes.io/cluster/${var.eks_cluster_name}" = "owned"
     # "aws:eks:cluster-name"                          = var.eks_cluster_name
   }

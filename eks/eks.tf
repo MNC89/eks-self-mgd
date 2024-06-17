@@ -15,7 +15,20 @@ resource "aws_eks_cluster" "fp_eks_cluster" {
   depends_on = [
     aws_iam_role_policy_attachment.eks_policy,
   ]
+
+  provisioner "local-exec" {
+    command = "aws eks update-kubeconfig --name $CLUSTER_NAME --region $REGION"
+
+    environment = {
+      CLUSTER_NAME = var.eks_cluster_name
+      REGION       = data.aws_region.current.name
+    }
+  }
 }
+
+## Data block to pull current region name used in eks provisioner ###
+
+data "aws_region" "current" {}
 
 ## EKS Cluster IAM Role ###
 

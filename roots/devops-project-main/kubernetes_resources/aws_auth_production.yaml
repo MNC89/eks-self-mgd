@@ -14,11 +14,11 @@ data:
       - system:masters
       rolearn: arn:aws:iam::383585068161:role/AWSReservedSSO_Administrator_a72305569e9173dc
       username: adminrole
-    - rolearn: arn:aws:iam::383585068161:role/GitHubActionsCICDrole
+    - groups:
+      - system:masters
+      rolearn: arn:aws:iam::383585068161:role/GitHubActionsCICDrole
       username: gha-cicd
-      groups:
-        - system:masters
-    - rolearn: arn:aws:iam::383585068161:role/GitHubActionsTerraformIAMrole
+    - groups:
+      - system:masters
+      rolearn: arn:aws:iam::383585068161:role/GitHubActionsTerraformIAMrole
       username: gha-terraform
-      groups:
-        - system:masters
