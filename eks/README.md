@@ -32,8 +32,8 @@ The EKS cluster is deployed alongside the VPC and apps in this repository using 
   * Save the arn of the created role as "IAM_ROLE" GitHub environment variable
 2. Create aws keypair to ssh into worker nodes and save it securely
   * `aws ec2 create-key-pair --key-name fp-eks-worker-node-key-pair`
-3. Adjust the kubernetes_resources/aws_auth files to your needs 
-4. Create a new branch and push to deploy EKS Cluster, VPC and attached applications
+3. Create a new branch and adjust the kubernetes_resources/aws_auth files to your needs 
+4. Git Push to deploy EKS Cluster, VPC and attached applications
 5. Configure VPC CNI add on
   a. Login to the kubernetes cluster
   b. Set WARM_IP_TARGET and MINIMUM_IP_TARGET with your values

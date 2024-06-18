@@ -15,7 +15,7 @@ resource "aws_eks_cluster" "fp_eks_cluster" {
   depends_on = [ aws_iam_role_policy_attachment.eks_policy ]
 }
 
-### Data block and to pull current region name used in eks provisioner ###
+### Data block and to pull current region name used in terraform_data provisioner ###
 
 data "aws_region" "current" {}
 
