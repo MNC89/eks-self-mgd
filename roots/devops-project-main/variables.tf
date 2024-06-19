@@ -11,28 +11,24 @@ variable "vpc_cidr" {
 
 variable "vpc_name" {
   type    = string
-  default = "final-project-vpc"
 }
 
 ### Internet Gateway variables ###
 
 variable "igw_name" {
   type    = string
-  default = "final-project-internet-gateway"
 }
 
 ### Public Route Table variables ###
 
 variable "pub_rt_name" {
   type    = string
-  default = "final-project-public-route-table"
 }
 
 ### Private Route Table variables ###
 
 variable "priv_rt_name" {
   type    = string
-  default = "final-project-private-route-table"
 }
 
 ### Public Subnet variables ###
@@ -96,7 +92,6 @@ variable "private_subnet_object" {
 ### EKS cluster variables ###
 variable "eks_cluster_name" {
   type    = string
-  default = "final-project-eks-cluster-dev"
 }
 
 variable "k8_version" {
@@ -106,12 +101,10 @@ variable "k8_version" {
 
 variable "environment" {
   type = string
-  default = "dev"
 }
 
 variable "eks_iam_role_name" {
   type    = string
-  default = "fp-eks-cluster-role"
 }
 
 variable "eks_policy" {
@@ -126,39 +119,32 @@ variable "eks_policy" {
 
 variable "vpc_cni_addon_name" {
   type    = string
-  default = "vpc-cni"
 }
 
 variable "vpc_cni_version" {
   type    = string
-  default = "v1.18.2-eksbuild.1"
 }
 
 variable "vpc_cni_update_resolve" {
   type    = string
-  default = "PRESERVE"
 }
 
 variable "vpc_cni_role_name" {
   type    = string
-  default = "fp-eks-vpc-cni-role"
 }
 
 variable "ebs_csi_addon_name" {
   type    = string
-  default = "aws-ebs-csi-driver"
 }
 
 variable "ebs_csi_role_name" {
   type    = string
-  default = "fp-eks-ebs-csi-role"
 }
 
 ### EKS security group variables ###
 
 variable "eks_sg_name" {
   type    = string
-  default = "eks-sg"
 }
 
 ### workers.tf variables ###
@@ -167,7 +153,6 @@ variable "eks_sg_name" {
 
 variable "asg_name" {
   type    = string
-  default = "final-project-asg"
 }
 
 variable "asg_max_size" {
@@ -228,12 +213,10 @@ variable "spot_inst_type" {
 
 variable "asg_lt_name" {
   type    = string
-  default = "final-project-asg-lt"
 }
 
 variable "asg_lt_inst_shutdown" {
   type    = string
-  default = "terminate"
 }
 
 variable "asg_lt_keypair" {
@@ -252,7 +235,6 @@ variable "asg_lt_vcpu" {
 }
 variable "lt_ebs_name" {
   type    = string
-  default = "/dev/xvda"
 }
 
 variable "lt_ebs_size" {
@@ -277,7 +259,6 @@ variable "lt_ebs_throughput" {
 
 variable "wk_name" {
   type    = string
-  default = "fp-eks-worker-node"
 }
 
 variable "worker_policy" {

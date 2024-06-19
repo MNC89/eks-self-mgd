@@ -68,7 +68,7 @@ resource "aws_iam_role_policy_attachment" "eks_policy" {
   role       = aws_iam_role.eks_iam_role.name
 }
 
-### EKS OIDC for Add Ons ### https://docs.aws.amazon.com/eks/latest/userguide/cni-iam-role.html
+### EKS OIDC for Add Ons ### 
 
 data "tls_certificate" "eks_tls" {
   url = aws_eks_cluster.fp_eks_cluster.identity[0].oidc[0].issuer

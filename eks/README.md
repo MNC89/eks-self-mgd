@@ -50,6 +50,7 @@ The EKS cluster is deployed alongside the VPC and apps in this repository using 
 * EKS worker node provisioning: https://aws.amazon.com/blogs/opensource/improvements-eks-worker-node-provisioning/
 * Increasing available IP addresses on worker nodes: https://docs.aws.amazon.com/eks/latest/userguide/cni-increase-ip-addresses.html
 * VPC-CNI Prefix and IP targets: https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/prefix-and-ip-target.md
+* Configuring the VPC CNI for Kubernetes to use IAM roles for service accounts: https://docs.aws.amazon.com/eks/latest/userguide/cni-iam-role.html
 * EKS Troubleshooting: https://docs.aws.amazon.com/eks/latest/userguide/troubleshooting.html#not-ready
 * EKS Security Groups: https://docs.aws.amazon.com/eks/latest/userguide/sec-group-reqs.html
 * Local-exec Provisioners: https://developer.hashicorp.com/terraform/language/resources/provisioners/local-exec
