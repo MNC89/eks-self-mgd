@@ -76,7 +76,7 @@ spot_strategy           = "capacity-optimized"
 spot_inst_type = [
   "t3.medium",
   "t3a.medium",
-  "t2.medium"
+  "t3.large"
 ]
 ### EKS ASG launch template variables ###
 asg_lt_name          = "final-project-asg-lt"

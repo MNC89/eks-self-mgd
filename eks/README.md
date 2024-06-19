@@ -8,7 +8,7 @@ This EKS cluster is entirely self managed and created on terraform. It is design
   * Deployed by an Auto Scaling Group on t3.medium and similar instance types
   * 20% on-demand and 80% spot instances for cost savings
   * Deployed on multiple AZs for greater availability
-  * Launch template uses latest optimised EKS AMI from SSM
+  * Launch template uses latest optimized EKS AMI from SSM
 * aws-auth config file for access to the kubernetes cluster
 * VPC CNI addon (Virtual Private Cloud Container Network Interface)
   * Allows for up to 110 pods to be deployed on each t3.medium node
