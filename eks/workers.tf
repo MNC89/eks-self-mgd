@@ -43,7 +43,7 @@ resource "aws_autoscaling_group" "fp_asg" {
 
   tag {
     key                 = "Name"
-    value               = "final-project-eks-worker-node"
+    value               = var.wk_name
     propagate_at_launch = true
   }
 
