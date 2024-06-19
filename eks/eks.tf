@@ -151,7 +151,6 @@ resource "aws_iam_role_policy_attachment" "Addon_AmazonEKS_CNI_Policy" {
   role       = aws_iam_role.cni_role.name
 }
 
-#https://davegallant.ca/blog/amazon-ebs-csi-driver-terraform/
 resource "aws_eks_addon" "ebs" {
   depends_on               = [aws_iam_role.ebs_csi_role, aws_autoscaling_group.fp_asg]
   cluster_name             = aws_eks_cluster.fp_eks_cluster.name
