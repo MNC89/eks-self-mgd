@@ -64,7 +64,7 @@ jobs:
         id: check-keypair
         run: |
           set -e
-          aws ec2 describe-key-pairs --key-name ${KEY_NAME} || echo "Key pair not found"
+          aws ec2 describe-key-pairs --key-name ${{ env.KEY_NAME }} || echo "Key pair not found"
 
       # # Build infrastructure according to Terraform configuration files
       # - name: Terraform Apply

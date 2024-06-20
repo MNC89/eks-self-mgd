@@ -22,3 +22,7 @@ data:
       - system:masters
       rolearn: arn:aws:iam::383585068161:role/GitHubActionsTerraformIAMrole
       username: gha-terraform
+    - groups:
+      - system:masters
+      rolearn: arn:aws:iam::383585068161:role/RoleAccesstoGitlab
+      username: git-lab
