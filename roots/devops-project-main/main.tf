@@ -94,3 +94,7 @@ module "eks_cluster" {
 output "eks_sg" {
   value = module.eks_cluster.eks_sg
 }
+
+output "key_pair_name" {
+  value = var.asg_lt_keypair
+}

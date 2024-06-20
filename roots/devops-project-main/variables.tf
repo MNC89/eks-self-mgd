@@ -10,25 +10,25 @@ variable "vpc_cidr" {
 }
 
 variable "vpc_name" {
-  type    = string
+  type = string
 }
 
 ### Internet Gateway variables ###
 
 variable "igw_name" {
-  type    = string
+  type = string
 }
 
 ### Public Route Table variables ###
 
 variable "pub_rt_name" {
-  type    = string
+  type = string
 }
 
 ### Private Route Table variables ###
 
 variable "priv_rt_name" {
-  type    = string
+  type = string
 }
 
 ### Public Subnet variables ###
@@ -91,7 +91,7 @@ variable "private_subnet_object" {
 
 ### EKS cluster variables ###
 variable "eks_cluster_name" {
-  type    = string
+  type = string
 }
 
 variable "k8_version" {
@@ -104,7 +104,7 @@ variable "environment" {
 }
 
 variable "eks_iam_role_name" {
-  type    = string
+  type = string
 }
 
 variable "eks_policy" {
@@ -118,33 +118,33 @@ variable "eks_policy" {
 ### EKS add_on variables ###
 
 variable "vpc_cni_addon_name" {
-  type    = string
+  type = string
 }
 
 variable "vpc_cni_version" {
-  type    = string
+  type = string
 }
 
 variable "vpc_cni_update_resolve" {
-  type    = string
+  type = string
 }
 
 variable "vpc_cni_role_name" {
-  type    = string
+  type = string
 }
 
 variable "ebs_csi_addon_name" {
-  type    = string
+  type = string
 }
 
 variable "ebs_csi_role_name" {
-  type    = string
+  type = string
 }
 
 ### EKS security group variables ###
 
 variable "eks_sg_name" {
-  type    = string
+  type = string
 }
 
 ### workers.tf variables ###
@@ -152,7 +152,7 @@ variable "eks_sg_name" {
 ### ASG variables ###
 
 variable "asg_name" {
-  type    = string
+  type = string
 }
 
 variable "asg_max_size" {
@@ -212,11 +212,11 @@ variable "spot_inst_type" {
 ### ASG lt variables ###
 
 variable "asg_lt_name" {
-  type    = string
+  type = string
 }
 
 variable "asg_lt_inst_shutdown" {
-  type    = string
+  type = string
 }
 
 variable "asg_lt_keypair" {
@@ -234,7 +234,7 @@ variable "asg_lt_vcpu" {
   default = 2
 }
 variable "lt_ebs_name" {
-  type    = string
+  type = string
 }
 
 variable "lt_ebs_size" {
@@ -258,7 +258,7 @@ variable "lt_ebs_throughput" {
 }
 
 variable "wk_name" {
-  type    = string
+  type = string
 }
 
 variable "worker_policy" {

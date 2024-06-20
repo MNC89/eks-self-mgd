@@ -1,10 +1,10 @@
 ### eks.tf Variables ###
 variable "eks_cluster_name" {
-  type    = string
+  type = string
 }
 
 variable "k8_version" {
-  type    = string
+  type = string
 }
 
 variable "eks_pub_sub_ids" {
@@ -16,7 +16,7 @@ variable "environment" {
 }
 
 variable "eks_iam_role_name" {
-  type    = string
+  type = string
 }
 
 variable "eks_policy" {
@@ -28,37 +28,37 @@ variable "eks_policy" {
 }
 
 variable "vpc_cni_addon_name" {
-  type    = string
+  type = string
 }
 
 variable "vpc_cni_version" {
-  type    = string
+  type = string
 }
 
 variable "vpc_cni_update_resolve" {
-  type    = string
+  type = string
 }
 
 variable "vpc_cni_role_name" {
-  type    = string
+  type = string
 }
 
 variable "ebs_csi_addon_name" {
-  type    = string
+  type = string
 }
 
 variable "ebs_csi_role_name" {
-  type    = string
+  type = string
 }
 
 variable "eks_sg_name" {
-  type    = string
+  type = string
 }
 
 ### workers.tf Variables ###
 
 variable "asg_name" {
-  type    = string
+  type = string
 }
 
 variable "asg_max_size" {
@@ -77,11 +77,11 @@ variable "asg_desired_size" {
 }
 
 variable "asg_health_grace_period" {
-  type    = number
+  type = number
 }
 
 variable "asg_health_type" {
-  type    = string
+  type = string
 }
 
 variable "asg_cap_rebalance" {
@@ -100,7 +100,7 @@ variable "on_dem_percent_over" {
 }
 
 variable "spot_strategy" {
-  type    = string
+  type = string
 }
 
 variable "spot_inst_type" {
@@ -113,11 +113,11 @@ variable "spot_inst_type" {
 }
 
 variable "asg_lt_name" {
-  type    = string
+  type = string
 }
 
 variable "asg_lt_inst_shutdown" {
-  type    = string
+  type = string
 }
 
 variable "asg_lt_keypair" {
@@ -161,7 +161,7 @@ variable "lt_ebs_throughput" {
 }
 
 variable "wk_name" {
-  type    = string
+  type = string
 }
 
 variable "worker_policy" {

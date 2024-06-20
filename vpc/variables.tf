@@ -6,25 +6,25 @@ variable "vpc_cidr" {
 }
 
 variable "vpc_name" {
-  type    = string
+  type = string
 }
 
 ### Internet Gateway variables ###
 
 variable "igw_name" {
-  type    = string
+  type = string
 }
 
 ### Public Route Table variables ###
 
 variable "pub_rt_name" {
-  type    = string
+  type = string
 }
 
 ### Private Route Table variables ###
 
 variable "priv_rt_name" {
-  type    = string
+  type = string
 }
 
 ### Public Subnet variables ###
@@ -86,5 +86,5 @@ variable "private_subnet_object" {
 ### Tag variables ###
 
 variable "eks_cluster_name" {
-  type    = string
+  type = string
 }
