@@ -10,6 +10,7 @@ This EKS cluster is entirely self managed and created on terraform. It is design
   * Deployed on multiple AZs for greater availability
   * Launch template uses latest optimized EKS AMI from SSM
 * aws-auth config file for access to the kubernetes cluster
+* Dynamically created SSH keypair for worker nodes that is saved in AWS console
 * VPC CNI addon (Virtual Private Cloud Container Network Interface)
   * Allows for up to 110 pods to be deployed on each t3.medium node
 * EBS CSI addon (Elastic Block Store Container Storage Interface)
@@ -30,11 +31,9 @@ The EKS cluster is deployed alongside the VPC and apps in this repository using 
 
 1. Clone the repository and create a "dev" environment in the GitHub repository.
   * Save the arn of the created role as "IAM_ROLE" GitHub environment variable
-2. Create aws keypair to ssh into worker nodes and save it securely
-  * `aws ec2 create-key-pair --key-name fp-eks-worker-node-key-pair`
-3. Create a new branch and adjust the kubernetes_resources/aws_auth files to your needs 
-4. Git Push to deploy EKS Cluster, VPC and attached applications
-5. Configure VPC CNI add on
+2. Create a new branch and adjust the kubernetes_resources/aws_auth files and providers.tf backend to your needs 
+3. Git Push to deploy EKS Cluster, VPC and attached applications
+4. Configure VPC CNI add on
   a. Login to the kubernetes cluster
   b. Set WARM_IP_TARGET and MINIMUM_IP_TARGET with your values
     * More information can be found [here](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/prefix-and-ip-target.md)

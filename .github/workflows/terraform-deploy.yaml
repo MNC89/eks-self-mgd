@@ -66,6 +66,12 @@ jobs:
           set -e
           aws ec2 describe-key-pairs --key-name ${{ env.KEY_NAME }} || echo "Key pair not found"
 
+      # Apply keypair if not found
+      - name: Create EC2 key pair if not found
+        if: steps.check-keypair.outputs['Key pair not found']
+        run: |
+          aws ec2 create-key-pair --key-name ${{ env.KEY_NAME }}
+            
       # # Build infrastructure according to Terraform configuration files
       # - name: Terraform Apply
       #   run: terraform apply -auto-approve -input=false -var-file=${ENVIRONMENT_STAGE}.tfvars 
