@@ -79,6 +79,7 @@ jobs:
       # Enable Prefix Delegation for VPC CNI plugin
       - name: Enable Prefix Delegation for VPC CNI plugin
         run: |
+          aws eks update-kubeconfig --name final-project-eks-cluster-${ENVIRONMENT_STAGE} --region $AWS_REGION
           kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
 
       # Deploy ingress controller
