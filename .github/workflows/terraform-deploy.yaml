@@ -68,6 +68,7 @@ jobs:
           else
             echo "KEY_EXISTS=false" >> $GITHUB_ENV
           fi
+          echo ${{ env.KEY_EXISTS }}
 
       # Apply keypair if not found
       - name: Create EC2 key pair if not found
