@@ -145,7 +145,8 @@ resource "aws_security_group" "worker_node_sg" {
   vpc_id      = var.vpc_id
 
   tags = {
-    Name = "${var.wk_name}-sg"
+    Name                                            = "${var.wk_name}-sg"
+    "kubernetes.io/cluster/${var.eks_cluster_name}" = "owned"
   }
 }
 
