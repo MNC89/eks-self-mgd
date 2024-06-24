@@ -63,14 +63,17 @@ jobs:
       - name: Check for EC2 key pair
         id: check-keypair
         run: |
-          set -e
-          aws ec2 describe-key-pairs --key-name ${{ env.KEY_NAME }} || echo "Key pair not found"
+          if aws ec2 describe-key-pairs --key-name ${{ env.KEY_NAME }} > /dev/null 2>&1; then
+            echo "KEY_EXISTS=true" >> $GITHUB_ENV
+          else
+            echo "KEY_EXISTS=false" >> $GITHUB_ENV
+          fi
 
       # Apply keypair if not found
       - name: Create EC2 key pair if not found
-        if: steps.check-keypair.outputs['Key pair not found']
+        if: ${{ env.KEY_EXISTS }}== 'false'
         run: |
-          aws ec2 create-key-pair --key-name ${{ env.KEY_NAME }}
+          aws ec2 create-key-pair --key-name "${{ env.KEY_NAME }}"
             
       # Build infrastructure according to Terraform configuration files
       - name: Terraform Apply
