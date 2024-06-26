@@ -73,8 +73,8 @@ jobs:
       - name: Create EC2 key pair if not found
         if: env.KEY_EXISTS == 'false'
         run: |
-          aws ec2 create-key-pair --key-name "${{ env.KEY_NAME }}" --query 'KeyMaterial' --output text > my-key.pem
-          rm -f my-key.pem
+          PRIVATE_KEY=$(aws ec2 create-key-pair --key-name "${{ env.KEY_NAME }}" --query 'KeyMaterial' --output text)
+          aws secretsmanager create-secret --name "${{ env.KEY_NAME }}" --secret-string "$PRIVATE_KEY"
 
             
       # Build infrastructure according to Terraform configuration files
