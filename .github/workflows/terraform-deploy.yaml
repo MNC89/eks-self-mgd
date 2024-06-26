@@ -74,7 +74,7 @@ jobs:
         if: env.KEY_EXISTS == 'false'
         run: |
           PRIVATE_KEY=$(aws ec2 create-key-pair --key-name "${{ env.KEY_NAME }}" --query 'KeyMaterial' --output text)
-          aws secretsmanager create-secret --name "${{ env.KEY_NAME }}" --secret-string "$PRIVATE_KEY"
+          aws secretsmanager create-secret --name "${{ env.KEY_NAME }}" --force-overwrite-replica-secret "true" --secret-string "$PRIVATE_KEY" 
 
             
       # Build infrastructure according to Terraform configuration files
