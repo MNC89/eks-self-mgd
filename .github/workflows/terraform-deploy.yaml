@@ -74,9 +74,12 @@ jobs:
         if: env.KEY_EXISTS == 'false'
         run: |
           PRIVATE_KEY=$(aws ec2 create-key-pair --key-name "${{ env.KEY_NAME }}" --query 'KeyMaterial' --output text)
-          aws secretsmanager create-secret --name "${{ env.KEY_NAME }}" --force-overwrite-replica-secret --secret-string "$PRIVATE_KEY" 
+          if aws secretsmanager describe-secret --secret-id "${{ env.KEY_NAME }}" > /dev/null 2>&1; then
+            aws secretsmanager put-secret-value --secret-id "${{ env.KEY_NAME }}" --secret-string "$PRIVATE_KEY"
+          else
+            aws secretsmanager create-secret --name "${{ env.KEY_NAME }}" --secret-string "$PRIVATE_KEY"
+          fi
 
-            
       # Build infrastructure according to Terraform configuration files
       - name: Terraform Apply
         run: terraform apply -auto-approve -input=false -var-file=${ENVIRONMENT_STAGE}.tfvars 
