@@ -15,6 +15,7 @@ env:
   # ENVIRONMENT_STAGE: ${{ (github.ref == 'refs/heads/main' && 'production') || (github.ref == 'refs/heads/staging' && 'staging') || 'dev' }}
   # since production and staging are not ready, deploy only to dev for now
   ENVIRONMENT_STAGE: "dev"
+  AWS_ACCOUNT_ID: ${{ aws sts get-caller-identity --query 'Account' --output text }}
 
 jobs:
   deploy-terraform:
@@ -44,7 +45,6 @@ jobs:
       - name: Check for backend S3
         id: check-s3
         run: |
-          AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
           if aws s3api list-buckets --query "Buckets[].Name" --output text | grep "${AWS_ACCOUNT_ID}-state-bucket-${ENVIRONMENT_STAGE}" > /dev/null 2>&1; then
             echo "S3_EXISTS=true" >> $GITHUB_ENV
           else
