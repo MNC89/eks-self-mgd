@@ -63,6 +63,12 @@ jobs:
         run: |
           aws s3api create-bucket --bucket "${{ env.AWS_ACCOUNT_ID }}-state-bucket-${{ env.ENVIRONMENT_STAGE }}" --region ${{ env.AWS_REGION }}
           aws s3api put-bucket-versioning --bucket "${{ env.AWS_ACCOUNT_ID }}-state-bucket-${{ env.ENVIRONMENT_STAGE }}" --versioning-configuration Status=Enabled
+          aws dynamodb create-table --table-name terraformlock \
+            --attribute-definitions AttributeName=LockID,AttributeType=S \
+            --key-schema AttributeName=LockID,KeyType=HASH \
+            --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 \
+            --region ${{ env.AWS_REGION }}
+
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
