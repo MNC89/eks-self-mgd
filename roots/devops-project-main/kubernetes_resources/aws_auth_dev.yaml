@@ -8,21 +8,29 @@ data:
     - groups:
       - system:bootstrappers
       - system:nodes
-      rolearn: arn:aws:iam::383585068161:role/fp-eks-worker-node-role
+      rolearn: arn:aws:iam::614637516007:role/fp-eks-worker-node-role
       username: system:node:{{EC2PrivateDNSName}}
-    - groups:
+  mapUsers: |
+    - userarn: arn:aws:iam::614637516007:user/Monico
+      username: admin
+      groups:
       - system:masters
-      rolearn: arn:aws:iam::383585068161:role/AWSReservedSSO_Administrator_a72305569e9173dc
-      username: adminrole
-    - groups:
-      - system:masters
-      rolearn: arn:aws:iam::383585068161:role/GitHubActionsCICDrole
-      username: gha-cicd
-    - groups:
-      - system:masters
-      rolearn: arn:aws:iam::383585068161:role/GitHubActionsTerraformIAMrole
-      username: gha-terraform
-    - groups:
-      - system:masters
-      rolearn: arn:aws:iam::383585068161:role/RoleAccesstoGitlab
-      username: git-lab
+
+
+
+    # - groups:
+    #   - system:masters
+    #   rolearn: arn:aws:iam::383585068161:role/AWSReservedSSO_Administrator_a72305569e9173dc
+    #   username: adminrole
+    # - groups:
+    #   - system:masters
+    #   rolearn: arn:aws:iam::383585068161:role/GitHubActionsCICDrole
+    #   username: gha-cicd
+    # - groups:
+    #   - system:masters
+    #   rolearn: arn:aws:iam::383585068161:role/GitHubActionsTerraformIAMrole
+    #   username: gha-terraform
+    # - groups:
+    #   - system:masters
+    #   rolearn: arn:aws:iam::383585068161:role/RoleAccesstoGitlab
+    #   username: git-lab
