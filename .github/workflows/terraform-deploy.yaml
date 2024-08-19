@@ -51,11 +51,11 @@ jobs:
           fi
 
       # Create S3 backend if not found and enable versioning
-      - name: Create EC2 key pair if not found
+      - name: Create S3 if not found
         if: env.S3_EXISTS == 'false'
         run: |
-          aws s3api create-bucket --bucket "{AWS_ACCOUNT_ID}-state-bucket-${ENVIRONMENT_STAGE}" --region us-east-1
-          aws s3api put-bucket-versioning --bucket "{AWS_ACCOUNT_ID}-state-bucket-${ENVIRONMENT_STAGE}" --versioning-configuration Status=Enabled
+          aws s3api create-bucket --bucket "${AWS_ACCOUNT_ID}-state-bucket-${ENVIRONMENT_STAGE}" --region us-east-1
+          aws s3api put-bucket-versioning --bucket "${AWS_ACCOUNT_ID}-state-bucket-${ENVIRONMENT_STAGE}" --versioning-configuration Status=Enabled
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
