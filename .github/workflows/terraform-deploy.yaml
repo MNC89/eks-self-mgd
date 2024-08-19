@@ -51,7 +51,7 @@ jobs:
       - name: Check for backend S3
         id: check-s3
         run: |
-          if aws s3api list-buckets --query "Buckets[].Name" --output text | grep "${{ env.AWS_ACCOUNT_ID }}"-state-bucket-${ENVIRONMENT_STAGE}" > /dev/null 2>&1; then
+          if aws s3api list-buckets --query "Buckets[].Name" --output text | grep "${{ env.AWS_ACCOUNT_ID }}-state-bucket-${ENVIRONMENT_STAGE}" > /dev/null 2>&1; then
             echo "S3_EXISTS=true" >> $GITHUB_ENV
           else
             echo "S3_EXISTS=false" >> $GITHUB_ENV
@@ -61,8 +61,8 @@ jobs:
       - name: Create S3 if not found
         if: env.S3_EXISTS == 'false'
         run: |
-          aws s3api create-bucket --bucket "${{ env.AWS_ACCOUNT_ID }}"-state-bucket-${ENVIRONMENT_STAGE}" --region ${{ env.AWS_REGION }}
-          aws s3api put-bucket-versioning --bucket "${{ env.AWS_ACCOUNT_ID }}"-state-bucket-${ENVIRONMENT_STAGE}" --versioning-configuration Status=Enabled
+          aws s3api create-bucket --bucket "${{ env.AWS_ACCOUNT_ID }}-state-bucket-${ENVIRONMENT_STAGE}" --region ${{ env.AWS_REGION }}
+          aws s3api put-bucket-versioning --bucket "${{ env.AWS_ACCOUNT_ID }}-state-bucket-${ENVIRONMENT_STAGE}" --versioning-configuration Status=Enabled
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
