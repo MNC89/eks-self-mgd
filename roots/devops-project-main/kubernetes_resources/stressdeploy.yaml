@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: stressdeploy
+  name: stressdeploy
+  namespace: myspace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stressdeploy
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: stressdeploy
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        resources: 
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+status: {}

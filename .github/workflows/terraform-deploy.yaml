@@ -1,6 +1,6 @@
 name: 'Workflow - Deploy on multi-account AWS with Terraform'
 on:
-  # trigger/start job when push happens to any of specified branches
+  # Trigger/start job when push happens to any of specified branches
   push:
     branches:
     - feature/**
@@ -129,4 +129,3 @@ jobs:
         run: |
          kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.1/deploy/static/provider/aws/deploy.yaml
          kubectl -n ingress-nginx patch service ingress-nginx-controller -p '{"spec":{"externalTrafficPolicy":"Cluster"}}'
-         echo "$(kubectl get svc ingress-nginx-controller -n ingress-nginx -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')" 
