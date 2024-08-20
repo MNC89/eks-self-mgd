@@ -88,10 +88,6 @@ jobs:
         run: |
           terraform plan -input=false -var-file=${{ env.ENVIRONMENT_STAGE }}.tfvars
       
-      # Build infrastructure according to Terraform configuration files
-      - name: Terraform Apply
-        run: terraform apply -auto-approve -input=false -var-file=${{ env.ENVIRONMENT_STAGE }}.tfvars 
-
       # Capture Terraform Outputs
       - name: capture-outputs
         run: |
@@ -117,6 +113,10 @@ jobs:
           else
             aws secretsmanager create-secret --name "${{ env.KEY_NAME }}" --secret-string "$PRIVATE_KEY"
           fi
+        
+      # Build infrastructure according to Terraform configuration files
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false -var-file=${{ env.ENVIRONMENT_STAGE }}.tfvars 
 
       # Enable Prefix Delegation for VPC CNI plugin
       - name: Enable Prefix Delegation for VPC CNI plugin
