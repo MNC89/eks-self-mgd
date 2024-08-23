@@ -1,7 +1,3 @@
-variable "greeting" {
-  description = "A greeting phrase"
-}
-
 ### VPC variables ###
 
 variable "vpc_cidr" {
