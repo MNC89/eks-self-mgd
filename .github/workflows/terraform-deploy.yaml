@@ -93,7 +93,7 @@ jobs:
         run: |
           terraform show -json tfplan > plan.json
           cat plan.json
-          KEY_NAME=$(jq -r '.resource_changes[] | select(.type == "aws_key_pair") | .change.after.key_name' plan.json)
+          KEY_NAME=$(jq -r '.planned_values.outputs.key_pair_name.value' plan.json)
           echo "KEY_NAME=$KEY_NAME" >> $GITHUB_ENV
           echo "$KEY_NAME"
         # echo "KEY_NAME=$(terraform output -raw key_pair_name)" >> $GITHUB_ENV
