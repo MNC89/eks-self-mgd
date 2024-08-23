@@ -94,7 +94,8 @@ jobs:
           terraform show -json tfplan > plan.json
           KEY_NAME=$(jq -r '.resource_changes[] | select(.type == "aws_key_pair") | .change.after.key_name' plan.json)
           echo "KEY_NAME=$KEY_NAME" >> $GITHUB_ENV
-      # echo "KEY_NAME=$(terraform output -raw key_pair_name)" >> $GITHUB_ENV
+          echo " ${{ env.KEY_NAME }}"
+        # echo "KEY_NAME=$(terraform output -raw key_pair_name)" >> $GITHUB_ENV
 
       # Check for existing key pair
       - name: Check for EC2 key pair
@@ -105,7 +106,7 @@ jobs:
           else
             echo "KEY_EXISTS=false" >> $GITHUB_ENV
           fi
-          echo ${{ env.KEY_EXISTS }}
+          echo "${{ env.KEY_EXISTS }}"
 
       # Apply keypair if not found
       - name: Create EC2 key pair if not found
