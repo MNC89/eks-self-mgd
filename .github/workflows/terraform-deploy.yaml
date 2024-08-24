@@ -135,6 +135,6 @@ jobs:
       
       # Destroy infrastructure according to Terraform configuration files
       - name: Terraform Destroy
-        run: 
+        run: |
           kubectl delete svc ingress-nginx-controller -n ingress-nginx
           terraform destroy -auto-approve -input=false -var-file=${{ env.ENVIRONMENT_STAGE }}.tfvars 
