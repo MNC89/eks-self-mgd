@@ -94,48 +94,47 @@ jobs:
           terraform show -json tfplan > plan.json
           KEY_NAME=$(jq -r '.planned_values.outputs.key_pair_name.value' plan.json)
           echo "KEY_NAME=$KEY_NAME" >> $GITHUB_ENV
-        # echo "KEY_NAME=$(terraform output -raw key_pair_name)" >> $GITHUB_ENV
-
-      # Check for existing key pair
-      - name: Check for EC2 key pair
-        id: check-keypair
-        run: |
-          if aws ec2 describe-key-pairs --key-name ${{ env.KEY_NAME }} > /dev/null 2>&1; then
-            echo "KEY_EXISTS=true" >> $GITHUB_ENV
-          else
-            echo "KEY_EXISTS=false" >> $GITHUB_ENV
-          fi
-
-      # Apply keypair if not found
-      - name: Create EC2 key pair if not found
-        if: env.KEY_EXISTS == 'false'
-        run: |
-          PRIVATE_KEY=$(aws ec2 create-key-pair --key-name "${{ env.KEY_NAME }}" --query 'KeyMaterial' --output text)
-          if aws secretsmanager describe-secret --secret-id "${{ env.KEY_NAME }}" > /dev/null 2>&1; then
-            aws secretsmanager put-secret-value --secret-id "${{ env.KEY_NAME }}" --secret-string "$PRIVATE_KEY"
-          else
-            aws secretsmanager create-secret --name "${{ env.KEY_NAME }}" --secret-string "$PRIVATE_KEY"
-          fi
-        
-      # Build infrastructure according to Terraform configuration files
-      - name: Terraform Apply
-        run: terraform apply -auto-approve -input=false -var-file=${{ env.ENVIRONMENT_STAGE }}.tfvars 
-
-      # Enable Prefix Delegation for VPC CNI plugin
-      - name: Enable Prefix Delegation for VPC CNI plugin
-        run: |
-          aws eks update-kubeconfig --name final-project-eks-cluster-${{ env.ENVIRONMENT_STAGE }} --region $AWS_REGION
-          kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
-
-      # Deploy ingress controller
-      - name: Deploy ingress-nginx controller
-        run: |
-         kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.1/deploy/static/provider/aws/deploy.yaml
-         kubectl -n ingress-nginx patch service ingress-nginx-controller -p '{"spec":{"externalTrafficPolicy":"Cluster"}}'
       
-      # # Login to cluster and destroy infrastructure and ingress controller according to Terraform configuration files
-      # - name: Terraform Destroy
+      # # Check for existing key pair
+      # - name: Check for EC2 key pair
+      #   id: check-keypair
+      #   run: |
+      #     if aws ec2 describe-key-pairs --key-name ${{ env.KEY_NAME }} > /dev/null 2>&1; then
+      #       echo "KEY_EXISTS=true" >> $GITHUB_ENV
+      #     else
+      #       echo "KEY_EXISTS=false" >> $GITHUB_ENV
+      #     fi
+
+      # # Apply keypair if not found
+      # - name: Create EC2 key pair if not found
+      #   if: env.KEY_EXISTS == 'false'
+      #   run: |
+      #     PRIVATE_KEY=$(aws ec2 create-key-pair --key-name "${{ env.KEY_NAME }}" --query 'KeyMaterial' --output text)
+      #     if aws secretsmanager describe-secret --secret-id "${{ env.KEY_NAME }}" > /dev/null 2>&1; then
+      #       aws secretsmanager put-secret-value --secret-id "${{ env.KEY_NAME }}" --secret-string "$PRIVATE_KEY"
+      #     else
+      #       aws secretsmanager create-secret --name "${{ env.KEY_NAME }}" --secret-string "$PRIVATE_KEY"
+      #     fi
+        
+      # # Build infrastructure according to Terraform configuration files
+      # - name: Terraform Apply
+      #   run: terraform apply -auto-approve -input=false -var-file=${{ env.ENVIRONMENT_STAGE }}.tfvars 
+
+      # # Enable Prefix Delegation for VPC CNI plugin
+      # - name: Enable Prefix Delegation for VPC CNI plugin
       #   run: |
       #     aws eks update-kubeconfig --name final-project-eks-cluster-${{ env.ENVIRONMENT_STAGE }} --region $AWS_REGION
-      #     kubectl delete svc ingress-nginx-controller -n ingress-nginx
-      #     terraform destroy -auto-approve -input=false -var-file=${{ env.ENVIRONMENT_STAGE }}.tfvars 
+      #     kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
+
+      # # Deploy ingress controller
+      # - name: Deploy ingress-nginx controller
+      #   run: |
+      #    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.1/deploy/static/provider/aws/deploy.yaml
+      #    kubectl -n ingress-nginx patch service ingress-nginx-controller -p '{"spec":{"externalTrafficPolicy":"Cluster"}}'
+      
+      # Login to cluster and destroy infrastructure and ingress controller according to Terraform configuration files
+      - name: Terraform Destroy
+        run: |
+          aws eks update-kubeconfig --name final-project-eks-cluster-${{ env.ENVIRONMENT_STAGE }} --region $AWS_REGION
+          kubectl delete svc ingress-nginx-controller -n ingress-nginx
+          terraform destroy -auto-approve -input=false -var-file=${{ env.ENVIRONMENT_STAGE }}.tfvars 
