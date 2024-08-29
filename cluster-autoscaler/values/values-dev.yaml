@@ -1,0 +1,2 @@
+IAM_role: arn:aws:iam::614637516007:role/AmazonEKSMainClusterAutoscalerRole
+cluster_name: final-project-eks-cluster-dev
