@@ -11,5 +11,5 @@ output "eks_sg" {
 }
 
 output "eks_id" {
-  value = element(split(".", replace(aws_eks_cluster.fp-cluster.endpoint, "https://", "")), 0)
+  value = element(split(".", replace(aws_eks_cluster.fp_eks_cluster.endpoint, "https://", "")), 0)
 }
