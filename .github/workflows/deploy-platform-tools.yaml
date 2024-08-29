@@ -45,7 +45,7 @@ jobs:
       # Example for a tool like Cluster Autoscaler
       - name: Deploy Cluster Autoscaler
         run: |
-          helm upgrade --install cluster-autoscaler ./cluster-autoscaler/helm-chart-autoscaler \
+          helm upgrade --install cluster-autoscaler ./cluster-autoscaler \
             --values ./cluster-autoscaler/values/main-cluster/values-${{ env.ENVIRONMENT_STAGE }}.yaml
 
       # Example for a tool like EKS Logging
