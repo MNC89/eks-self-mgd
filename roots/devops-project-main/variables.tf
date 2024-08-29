@@ -266,3 +266,10 @@ variable "worker_policy" {
     "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
   ]
 }
+
+### Cluster AutoScaler Variables ###
+
+variable "eks_cluster_id" {
+  description = "EKS cluster's id"
+  type        = string
+}

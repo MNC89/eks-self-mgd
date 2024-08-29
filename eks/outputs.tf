@@ -9,3 +9,7 @@ output "kubeconfig-certificate-authority-data" {
 output "eks_sg" {
   value = aws_eks_cluster.fp_eks_cluster.vpc_config[0].cluster_security_group_id
 }
+
+output "eks_id" {
+  value = aws_eks_cluster.fp_eks_cluster.cluster_id
+}

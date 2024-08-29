@@ -74,7 +74,7 @@ module "eks_cluster" {
   worker_policy           = var.worker_policy
 }
 
-### EKS Outputs###
+### EKS Outputs ###
 
 output "eks_sg" {
   value = module.eks_cluster.eks_sg
@@ -82,4 +82,15 @@ output "eks_sg" {
 
 output "key_pair_name" {
   value = var.asg_lt_keypair
+}
+
+output "eks_id" {
+  value = module.eks_cluster.eks_id
+}
+
+### Cluster Autoscaler ###
+
+module "cluster-autoscaler" {
+  source         = "../../cluster-autoscaler"
+  eks_cluster_id = module.eks_cluster.eks_id
 }
