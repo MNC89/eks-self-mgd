@@ -116,25 +116,25 @@ jobs:
             aws secretsmanager create-secret --name "${{ env.KEY_NAME }}" --secret-string "$PRIVATE_KEY"
           fi
         
-      # # Build infrastructure according to Terraform configuration files
-      # - name: Terraform Apply
-      #   run: terraform apply -auto-approve -input=false -var-file=${{ env.ENVIRONMENT_STAGE }}.tfvars 
+      # Build infrastructure according to Terraform configuration files
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false -var-file=${{ env.ENVIRONMENT_STAGE }}.tfvars 
 
-      # # Enable Prefix Delegation for VPC CNI plugin
-      # - name: Enable Prefix Delegation for VPC CNI plugin
-      #   run: |
-      #     aws eks update-kubeconfig --name final-project-eks-cluster-${{ env.ENVIRONMENT_STAGE }} --region $AWS_REGION
-      #     kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
-
-      # # Deploy ingress controller
-      # - name: Deploy ingress-nginx controller
-      #   run: |
-      #    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.1/deploy/static/provider/aws/deploy.yaml
-      #    kubectl -n ingress-nginx patch service ingress-nginx-controller -p '{"spec":{"externalTrafficPolicy":"Cluster"}}'
-      
-      # Login to cluster and destroy infrastructure and ingress controller according to Terraform configuration files
-      - name: Terraform Destroy
+      # Enable Prefix Delegation for VPC CNI plugin
+      - name: Enable Prefix Delegation for VPC CNI plugin
         run: |
           aws eks update-kubeconfig --name final-project-eks-cluster-${{ env.ENVIRONMENT_STAGE }} --region $AWS_REGION
-          kubectl delete svc ingress-nginx-controller -n ingress-nginx
-          terraform destroy -auto-approve -input=false -var-file=${{ env.ENVIRONMENT_STAGE }}.tfvars 
+          kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
+
+      # Deploy ingress controller
+      - name: Deploy ingress-nginx controller
+        run: |
+         kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.1/deploy/static/provider/aws/deploy.yaml
+         kubectl -n ingress-nginx patch service ingress-nginx-controller -p '{"spec":{"externalTrafficPolicy":"Cluster"}}'
+      
+      # Login to cluster and destroy infrastructure and ingress controller according to Terraform configuration files
+      # - name: Terraform Destroy
+      #   run: |
+      #     aws eks update-kubeconfig --name final-project-eks-cluster-${{ env.ENVIRONMENT_STAGE }} --region $AWS_REGION
+      #     kubectl delete svc ingress-nginx-controller -n ingress-nginx
+      #     terraform destroy -auto-approve -input=false -var-file=${{ env.ENVIRONMENT_STAGE }}.tfvars 
